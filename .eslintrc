@@ -99,6 +99,7 @@
         "allowTemplateLiterals": true
       }
     ],
+    "semi":"error",
     "prettier/prettier": [
       "error",
       {
