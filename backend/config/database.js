@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const databaseConnect = () => {
     mongoose.connect(process.env.DATABASE_URL, {
@@ -6,10 +6,10 @@ const databaseConnect = () => {
         useUnifiedTopology: true,
         useCreateIndex: true
     }).then(() => {
-        console.log("MongoDB database connect...");
+        console.log("mongodb db connected")
     }).catch(error => {
         console.log(error)
     })
 }
 
-module.exports = databaseConnect;
+module.exports = databaseConnect

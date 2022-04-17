@@ -1,22 +1,22 @@
-const {model, Shema, Schema} = require("mongoose")
+const {model, Shema} = require("mongoose")
 
-const registerSchema = new Schema({
+const registerSchema = new Shema({
     userName: {
         type: String,
-        reqired: true
+        required: true
     },
     email: {
         type: String,
-        reqired: true
+        required: true
     },
     password: {
         type: String,
-        reqired: true
+        required: true
     },
     image: {
         type: String,
-        reqired: true
+        required: true
     },
-}, {timestamps: true})
+},{timestamp: true})
 
-module.exports = model('user', registerSchema)
+module.exports = model("user", registerSchema)
