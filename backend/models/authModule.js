@@ -1,6 +1,6 @@
-const {model, Shema} = require("mongoose")
+const {Schema, model} = require("mongoose")
 
-const registerSchema = new Shema({
+const registerSchema = new Schema({
     userName: {
         type: String,
         required: true
