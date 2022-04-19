@@ -1,22 +1,27 @@
-const {Schema, model} = require("mongoose")
+const Sequelize = require("sequelize")
+const db = require("../config/database.js")
 
-const registerSchema = new Schema({
+const { DataTypes } = Sequelize;
+
+const registerSchema = db.define("users",{
     userName: {
-        type: String,
+        type: DataTypes.STRING,
         required: true
     },
     email: {
-        type: String,
+        type: DataTypes.STRING,
         required: true
     },
     password: {
-        type: String,
+        type: DataTypes.STRING,
         required: true
     },
     image: {
-        type: String,
+        type: DataTypes.STRING,
         required: true
     },
-},{timestamp: true})
+},{
+    timestamp: true
+})
 
-module.exports = model("user", registerSchema)
+module.exports = registerSchema

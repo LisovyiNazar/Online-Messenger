@@ -1,15 +1,9 @@
-const mongoose = require("mongoose");
+const Sequelize = require("sequelize")
 
-const databaseConnect = () => {
-    mongoose.connect(process.env.DATABASE_URL, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    }).then(() => {
-        console.log("mongodb db connected")
-    }).catch(error => {
-        console.log(error)
-    })
-}
+const db = new Sequelize("messenger", "root", "", {
+    host: "localhost",
+    port: "3307",
+    dialect: "mysql"
+});
 
-module.exports = databaseConnect
+module.exports = db

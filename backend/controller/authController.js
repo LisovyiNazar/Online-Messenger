@@ -1,13 +1,12 @@
 const formidable = require("formidable")
 const validator = require("validator")
-const registerModel = require("../models/authModule")
+const registerModel = require("../models/authModule.js")
 const fs = require("fs")
 const bcrypt = require("bcrypt")
 const req = require("express/lib/request")
 const jwt = require("jsonwebtoken")
 
-
-module.exports.userRegister = (req,res) => {
+module.exports.userRegister = async (req,res) => {
     const form = formidable()
     form.parse(req, async (err,fields,files) => {
         const {userName, email, password, confirmPassword} = fields
@@ -51,47 +50,52 @@ module.exports.userRegister = (req,res) => {
             image.originalFilename = newImageName
 
             try {
-                const checkUser = await registerModel.findOne({email:email})
-                if(checkUser) {
-                    res.status(404).json({error:{errorMessage:["Your email already exited"]}})
-                } else {
-                    fs.copyFile(image.filepath, newPath, async (error) => {
-                        if(!error) {
-                            const userCreate = await registerModel.create({
-                                userName,
-                                email,
-                                password: await bcrypt.hash(password,10),
-                                image: image.originalFilename
-                            })
-
-                            const token = jwt.sign({
-                                id: userCreate._id,
-                                email: userCreate.email,
-                                userName: userCreate.userName,
-                                image: userCreate.image,
-                                registerTime: userCreate.createAt
-                            }, process.env.SECRET, {expiresIn: process.env.TOKEN_EXP})
-
-                            const options = {
-                                expires: new Date(Date.now() + process.env.COOKIE_EXP*24*60*60*1000)
+                console.log(email)
+                const checkUser = await registerModel.findOne({ 
+                    where: {
+                        email: email
+                    }
+                }).then((checkUser) => {
+                    if(checkUser) {
+                        res.status(404).json({error:{errorMessage:["Your email already exited"]}})
+                    } else {
+                        fs.copyFile(image.filepath, newPath, async (error) => {
+                            if(!error) {
+                                const userCreate = await registerModel.create({
+                                    userName,
+                                    email,
+                                    password: await bcrypt.hash(password,10),
+                                    image: image.originalFilename
+                                })
+    
+                                const token = jwt.sign({
+                                    id: userCreate.id,
+                                    email: userCreate.email,
+                                    userName: userCreate.userName,
+                                    image: userCreate.image,
+                                    registerTime: userCreate.createAt
+                                }, process.env.SECRET, {expiresIn: process.env.TOKEN_EXP})
+    
+                                const options = {
+                                    expires: new Date(Date.now() + process.env.COOKIE_EXP*24*60*60*1000)
+                                }
+                                
+                                res.status(201).cookie("authToken", token, options).json({
+                                    successMessege: "Your registration successfull",
+                                    token
+                                })
+    
+                                console.log(token)
+                                console.log("register success")
+                            } else  {
+                                res.status(500).json({error:{errorMessage:["Internal server error"]}})
                             }
-                            res.status(201).cookie("authToken", token, options).json({
-                                successMessege: "Your registration successfull",
-                                token
-                            })
-
-                            console.log(token)
-                            console.log("register success")
-                        } else  {
-                            res.status(500).json({error:{errorMessage:["Internal server error"]}})
-                        }
-                    })
-                }
+                        })
+                    }
+                })
             } catch(error) {
                 console.log(error)
             }
-
-            console.log(image.originalFilename)
         }
 
     })

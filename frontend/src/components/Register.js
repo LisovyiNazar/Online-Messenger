@@ -83,7 +83,7 @@ const Register = () => {
                         <div className="form-group">
                             <div className="file-image">
                                 <div className="image">
-                                    {loadImage ? <img src = {loadImage}/> : ''}
+                                    {loadImage ? <img src = {loadImage} alt=""/> : ''}
                                 </div>
                                 <div className="file">
                                     <label htmlFor="image">Select Image</label>
