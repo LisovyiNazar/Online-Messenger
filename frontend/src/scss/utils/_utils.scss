@@ -16,8 +16,9 @@
     border: none;
     outline: none;
     background-color: #0e0e1585;
+    color: #fff;
     &::placeholder {
-        color: #fff;
+        color: #B2B2B2;
         font-weight: 400;
     }
 }

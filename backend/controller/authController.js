@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt")
 const req = require("express/lib/request")
 const jwt = require("jsonwebtoken")
 
-module.exports.userRegister = async (req,res) => {
+module.exports.userRegister = async (req, res) => {
     const form = formidable()
     form.parse(req, async (err,fields,files) => {
         const {userName, email, password, confirmPassword} = fields
@@ -81,20 +81,17 @@ module.exports.userRegister = async (req,res) => {
                                 }
                                 
                                 res.status(201).cookie("authToken", token, options).json({
-                                    successMessege: "Your registration successfull",
+                                    successMessage: "Your registration successfull",
                                     token
                                 })
-    
-                                console.log(token)
-                                console.log("register success")
                             } else  {
-                                res.status(500).json({error:{errorMessage:["Internal server error"]}})
+                                res.status(404).json({error:{errorMessage:["Internal server error"]}})
                             }
                         })
                     }
                 })
             } catch(error) {
-                console.log(error)
+                res.status(404).json({error:{errorMessage:["Internal server error"]}})
             }
         }
 

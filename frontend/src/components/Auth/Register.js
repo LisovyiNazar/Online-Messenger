@@ -1,9 +1,16 @@
 import React, { useState }  from "react"
 import { Link } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { userRegister } from "../store/actions/authAction"
+import { userRegister } from "../../store/actions/authAction"
 
 const Register = () => {
+
+    const [checked, setX] = useState(false);
+
+    const soldCheckbox = ({ target: { checked } }) => {
+        setX(checked);
+    }
+
     const [state,setstate] = useState({
         userName: "",
         email: "",
@@ -41,8 +48,6 @@ const Register = () => {
     const dispatch = useDispatch()
 
     const register = e => {
-        e.preventDefault()
-        
         const {userName, email, password ,confirmPassword, image} = state
 
         const formData = new FormData()
@@ -52,8 +57,13 @@ const Register = () => {
         formData.append("confirmPassword", confirmPassword);
         formData.append("image", image);
 
-        dispatch(userRegister(formData))
-
+        if(checked === true) {
+            dispatch(userRegister(formData))
+        } else {
+            console.log("Please Agree to Privacy Policy")
+        }
+        
+        e.preventDefault()
     }
 
     return (
@@ -63,10 +73,10 @@ const Register = () => {
                     <h3>Register</h3>
                 </div>
                 <div className="card-body">
-                    <form onSubmit={register}>
+                    <form onSubmit={register} method="post">
                         <div className="form-group">
                             <label htmlFor="username">User Name</label>
-                            <input type="text" onChange={inputHendle} name="userName" value={state.userName} className="form-control" placeholder="Nazar" id="username"></input>
+                            <input type="text" onChange={inputHendle} name="userName" value={state.userName} className="form-control" placeholder="Alex" id="username"></input>
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
@@ -90,6 +100,10 @@ const Register = () => {
                                     <input type="file" onChange={fileHendle}  name="image" className="form-control" id="image"></input>
                                 </div>
                             </div>
+                        </div>
+                        <div>
+                            <input type="checkbox" checked={checked} onChange={soldCheckbox} />
+                            <label for="privacy">I Agree to Privacy Policy</label>
                         </div>
                         <div className="form-group">
                             <input type="submit" value="register" className="btn"></input>  
