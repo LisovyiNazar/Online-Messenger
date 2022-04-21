@@ -14,7 +14,8 @@ const registerSchema = db.define("users",{
     },
     password: {
         type: DataTypes.STRING,
-        required: true
+        required: true,
+        select: false
     },
     image: {
         type: DataTypes.STRING,

@@ -3,8 +3,9 @@ const app = express()
 
 const dotenv = require("dotenv")
 
-const authRouter = require("./routes/authRoute")
 const cookieParser = require("cookie-parser")
+const bodyParser = require("body-parser")
+const authRouter = require("./routes/authRoute")
 const cors = require("cors")
 
 const databaseConnect = require("./config/database")
@@ -13,8 +14,9 @@ dotenv.config({
   path : "backend/config/config.env"
 })
 
-app.use("/api/messenger", authRouter)
+app.use(bodyParser())
 app.use(cookieParser())
+app.use("/api/messenger", authRouter)
 app.use(cors())
 
 app.get('/', (req, res) => {

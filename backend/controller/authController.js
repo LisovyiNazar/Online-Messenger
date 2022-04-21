@@ -39,8 +39,7 @@ module.exports.userRegister = async (req, res) => {
         }
         if(error.length>0) {
             res.status(400).json({errorMessage:error})
-        }
-        else {
+        } else {
             const getImageName = image.originalFilename
             const randNumber = Math.floor(Math.random()*99999) 
 
@@ -96,4 +95,62 @@ module.exports.userRegister = async (req, res) => {
         }
 
     })
+}
+
+module.exports.userLogin = async (req, res) => {
+    
+    const {email, password} = req.body
+    
+    const error = []
+    if(!email) {
+        error.push("please provide your email")
+    }
+    if(email && !validator.isEmail(email)) {
+        error.push("please provide your valid email")
+    }
+    if(!password) {
+        error.push("please provide your password")
+    }
+    if(error.length > 0) {
+        res.status(404).json({error:{errorMessage:error}})
+    } else {
+        try {
+            const checkUser = await registerModel.findOne({ 
+                where: {
+                    email: email 
+                }
+            })
+
+            if(checkUser) {
+                const matchPassword = await bcrypt.compare(password,checkUser.password)
+    
+                if(matchPassword) {
+                    const token = jwt.sign({
+                        id: checkUser.id,
+                        email: checkUser.email,
+                        userName: checkUser.userName,
+                        image: checkUser.image,
+                        registerTime: checkUser.createAt
+                    }, process.env.SECRET, {expiresIn: process.env.TOKEN_EXP})
+    
+                    const options = {
+                        expires: new Date(Date.now() + process.env.COOKIE_EXP*24*60*60*1000)
+                    }
+                    
+                    res.status(201).cookie("authToken", token, options).json({
+                        successMessage: "Your login successfull",
+                        token
+                    })
+                } else {
+                    res.status(404).json({error:{errorMessage:["Your password not valid"]}})
+                }
+            } else {
+                res.status(404).json({error:{errorMessage:["Your email not found"]}})
+            }
+
+        } catch (error) {
+            res.status(404).json({error:{errorMessage:["Internal server error"]}})
+        }
+    }
+
 }

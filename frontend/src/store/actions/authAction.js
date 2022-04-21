@@ -3,11 +3,13 @@ import { REGISTER_FAIL, REGISTER_SUCCESS } from  "../types/authType"
 
 export const userRegister = (data) => {
     return async (dispatch) => {
+
         const config = { 
             headers: {
                 "Content-Type": "application/json"
             }
         }
+
         try {
             const response = await axios.post("/api/messenger/user-register", data, config)
             
@@ -28,6 +30,25 @@ export const userRegister = (data) => {
                     error: error.response.data.errorMessage
                 }
             })
+        }
+    }
+}
+
+export const userLogin = (data) => {
+    return async (dispatch) => {
+
+        const config = { 
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }
+
+        try {
+            const response = await axios.post("/api/messenger/user-login", data, config)
+            console.log(response)
+            
+        } catch (error) {
+            console.log(error.response.data)
         }
     }
 }
