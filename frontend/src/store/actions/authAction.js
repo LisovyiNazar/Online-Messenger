@@ -25,7 +25,7 @@ export const userRegister = (data) => {
             dispatch({
                 type: REGISTER_FAIL,
                 payload: {
-                    error: error.response.data
+                    error: error.response.data.errorMessage
                 }
             })
         }

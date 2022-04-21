@@ -1,9 +1,15 @@
-import React, { useState }  from "react"
-import { Link } from "react-router-dom"
-import { useDispatch } from "react-redux"
+import React, { useState, useEffect }  from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
 import { userRegister } from "../../store/actions/authAction"
+import { useAlert } from "react-alert"
+import { SUCCESS_MESSAGE_CLEAR, ERROR_MESSAGE_CLEAR } from "../../store/types/authType"
 
-const Register = () => {
+const Register = ({history}) => {
+
+    const alert = useAlert();
+    const navigate = useNavigate()
+    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth);
 
     const [checked, setX] = useState(false);
 
@@ -65,6 +71,25 @@ const Register = () => {
         
         e.preventDefault()
     }
+    
+    useEffect(() => {
+        if(authenticate) {
+            navigate("/")
+        }
+       
+        if(successMessage) {
+            alert.success(successMessage)
+            dispatch({
+                type: SUCCESS_MESSAGE_CLEAR
+            })
+        }
+        if(error) {
+            error.map(err => alert.error(err))
+            dispatch({
+                type: ERROR_MESSAGE_CLEAR
+            })
+        }
+    },[successMessage, error])
 
     return (
         <div className="register">
@@ -103,7 +128,7 @@ const Register = () => {
                         </div>
                         <div>
                             <input type="checkbox" checked={checked} onChange={soldCheckbox} />
-                            <label for="privacy">I Agree to Privacy Policy</label>
+                            <label htmlFor="privacy">I Agree to Privacy Policy</label>
                         </div>
                         <div className="form-group">
                             <input type="submit" value="register" className="btn"></input>  
