@@ -1,10 +1,15 @@
-import React, {useState} from "react"
-import {Link} from "react-router-dom"
+import React, {useEffect, useState} from "react"
+import { Link, useNavigate} from "react-router-dom"
 import { userLogin } from "../../store/actions/authAction"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { useAlert } from "react-alert"
+import { SUCCESS_MESSAGE_CLEAR, ERROR_MESSAGE_CLEAR } from "../../store/types/authType"
 
 const Login = () => {
 
+    const alert = useAlert()
+    const navigate = useNavigate()
+    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth)
     const dispatch = useDispatch()
     
     const [state,setState] = useState({
@@ -23,6 +28,26 @@ const Login = () => {
         e.preventDefault()
         dispatch(userLogin(state))
     }
+
+    useEffect(() => {
+        if(authenticate) {
+            navigate("/")
+        }
+       
+        if(successMessage) {
+            alert.success(successMessage)
+            dispatch({
+                type: SUCCESS_MESSAGE_CLEAR
+            })
+        }
+        if(error) {
+            error.map(err => alert.error(err))
+            dispatch({
+                type: ERROR_MESSAGE_CLEAR
+            })
+        }
+    },[successMessage, error])
+
 
     return (
         <div className="login">
