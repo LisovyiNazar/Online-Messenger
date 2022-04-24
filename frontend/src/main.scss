@@ -1,3 +1,7 @@
-@import './scss/base/reset';
-@import './scss/utils/utils';
-@import '../src/components/Auth/register';
+@import "./scss/base/reset";
+@import "./scss/utils/utils";
+@import "./scss/layout/grid";
+@import "../src/components/Auth/register";
+@import "../src/components/Messenger/messenger";
+@import "../src/components/ActiveFriend/activeFriend";
+@import "../src/components/Friends/friends";
