@@ -9,7 +9,7 @@ const Friends = () => {
                 </div>
             </div>
             <div className="friend-name">
-                <h4>Maks</h4>
+                <h4>Nazar</h4>
             </div>
         </div>
     )

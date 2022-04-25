@@ -4,6 +4,7 @@
         .row {
             height:  100%;
             .col-8 {
+                transition: all 0.3s;
                 .message-send-show {
                     height: 100vh;
                     border-right: 1px solid #213156bf;
@@ -61,95 +62,28 @@
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
+                                label {
+                                    display: flex;
+                                    margin-bottom: 0;
+                                    cursor: pointer;
+                                }
                             }
                         }
                     }
-                }.col-3 {
-            .left-side {
-                padding: 5px 0px;
-                border-right: 1px solid #213156bf;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                justify-content: start;
-            }
-            .top {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                margin: 12px 8px;
-                .image-name {
-                    display: flex;
-                    cursor: pointer;
-                    .image {
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        overflow: hidden;
-                        img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                        }
-                    }
-                    .name {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        h3 {
-                            padding-left: 10px;
-                            font-weight: 600;
-                            color: #ffffff;
-                        }
-                    }
                 }
-                .icons {
-                    display: flex;
-                    .icon {
-                        display: flex;
-                        padding: 8px;
-                        background: #0a0a1375;
-                        margin-left: 8px;
-                        border-radius: 24px;
-                        color: #ffffff;
-                        cursor: pointer;
-                    }
-                }
-            }
-            .friend-search {
-                padding: 0px 8px;
-                .search {
-                    display: flex;
-                    width: 100%;
-                    height: 40px;
-                    background: #15162559;
-                    border-radius: 50px;
-                    margin: 20px 0px;
-                    button {
-                        padding: 12px;
-                        border-bottom-left-radius: 50px;
-                        border-top-left-radius: 50px;
-                        border: none;
-                        color: #ffffff;
-                        font-size: 20px;
-                        background-color: transparent;
-                    }
-                    .form-control {
-                        width: 100%;
-                        padding-left: 0px;
-                        border-bottom-right-radius: 50px;
-                        border-top-right-radius: 50px;
-                        background-color: #fff0;
-                        border: none;
-                    }
-                }
-            }
-        }
             }
             .col-4 {
                 
             }
+        }
+        #dot {
+            display: none;
+        }
+        #dot:checked ~ .row .col-4 {
+            display: none;
+        }
+        #dot:checked ~ .row .col-8 {
+            width: 100%;
         }
     }
 }
