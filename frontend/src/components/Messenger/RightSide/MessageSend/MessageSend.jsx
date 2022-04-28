@@ -11,6 +11,7 @@ const MessageSend = () =>  {
         "😊", "😇", "😉","😄", "😁", "😆", 
         "😅", "😂", "🤣","😊", "😇", "😉"
     ]
+    const emojissIndex ={}
 
     return (
         <div className="message-send-section">
@@ -40,7 +41,7 @@ const MessageSend = () =>  {
             </div>
             <div className="emoji-section">
                 <div className="emoji">
-                    { emojis.map(e => <span>{e}</span>) }
+                    { emojis.map((e, i) => <span key={i}>{e}</span>) }
                 </div>
             </div>
         </div>

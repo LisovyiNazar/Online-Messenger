@@ -24,6 +24,26 @@ const ActiveFrind = () => {
                     <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
                     <div className="active-icon"></div>
                 </div>
+                <div className="image">
+                    <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                    <div className="active-icon"></div>
+                </div>
+                <div className="image">
+                    <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                    <div className="active-icon"></div>
+                </div>
+                <div className="image">
+                    <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                    <div className="active-icon"></div>
+                </div>
+                <div className="image">
+                    <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                    <div className="active-icon"></div>
+                </div>
+                <div className="image">
+                    <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                    <div className="active-icon"></div>
+                </div>
             </div>
         </div>
     )

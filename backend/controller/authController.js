@@ -44,9 +44,8 @@ module.exports.userRegister = async (req, res) => {
             const randNumber = Math.floor(Math.random()*99999) 
 
             const newImageName = randNumber + getImageName
-
-            const newPath = __dirname + `../../../frontend/public/image/${image.originalFilename}`
             image.originalFilename = newImageName
+            const newPath = __dirname + `../../../frontend/public/image/${image.originalFilename}`
 
             try {
                 console.log(email)

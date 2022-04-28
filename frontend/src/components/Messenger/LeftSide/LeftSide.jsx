@@ -1,21 +1,33 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
 import { BiSearch } from "react-icons/bi"
 import ActiveFrind from "./ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
+import { useDispatch, useSelector } from "react-redux"
+import { getFriends } from "../../../store/actions/messengerAction" 
 
 const LeftSide = () => {
+
+    const { friends } = useSelector(state => state.messenger)
+    const { myInfo } = useSelector(state => state.auth)
+    
+    
+    const dispatch = useDispatch()
+    
+    useEffect(() => {
+        dispatch(getFriends())
+    }, [])
     return (
     <div className="col-3">
         <div className="left-side">
             <div className="top">
                 <div className="image-name">
                     <div className="image">
-                        <img src="/image/photo_2021-09-23_14-55-05.jpg" alt="" srcset="" />
+                        <img src={`/image/${myInfo.image}`} alt="" />
                     </div>
                     <div className="name">
-                        <h3>Nazar</h3>
+                        <h3>{myInfo.userName}</h3>
                     </div>
                 </div>
                 <div className="icons">
@@ -37,12 +49,13 @@ const LeftSide = () => {
                 <ActiveFrind/>
             </div>
             <div className="friends">
-                <div className="hover-friend active">
-                    <Friends/>
-                </div>
-                <div className="hover-friend">
-                    <Friends/>
-                </div>
+                {
+                    friends && friends.length > 0 ? friends.map (fd => 
+                        <div className="hover-friend">
+                            <Friends friend = {fd} />
+                        </div>
+                    ):"no friend"
+                }
             </div>
         </div>
     </div>
