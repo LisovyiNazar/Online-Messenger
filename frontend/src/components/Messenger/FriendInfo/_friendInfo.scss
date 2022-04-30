@@ -2,6 +2,7 @@
     padding: 12px 15px;
     display: flex;
     height: 100%;
+    width: 100%;
     flex-direction: column;
     .image-name {
         display: flex;
@@ -64,10 +65,52 @@
             width: 100%;
         }
     }
-    #gallary {
+    .back {
+        display: none;
+        .icons {
+            display: flex;
+            .icon {
+                height: 35px;
+                width: 35px;
+                background: #0a0a1375;
+                margin-left: 8px;
+                border-radius: 50%;
+                color: #ffffff;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                label {
+                    display: flex;
+                    margin-bottom: 0;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    #gallary, #back {
         display: none;
     }
     #gallary:checked ~ .gallary {
         display: grid;
+    }
+
+
+    @media only screen and (max-width: 1024px) {        
+        .gallary {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    @media only screen and (max-width: 900px) {
+        .back {
+            display: flex;
+            justify-content: flex-end;
+        }
+        .friend-info {
+            width: 100%;
+        }
+        .gallary {
+            grid-template-columns: repeat(3, 1fr);
+        }
     }
 }

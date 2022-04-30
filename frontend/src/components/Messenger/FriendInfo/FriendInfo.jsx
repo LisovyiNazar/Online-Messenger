@@ -1,11 +1,19 @@
 import React from "react";
 import { BsChevronDown } from "react-icons/bs"
+import { HiDotsCircleHorizontal } from "react-icons/hi"
 
 const FriendInfo = (props) => {
     const {currentFriend} = props
     return (
         <div className="friend-info">
             <input type="checkbox" id="gallary"/>
+            <div className="back">
+                <div className="icons">
+                    <div className="icon">
+                        <label htmlFor="dot"><HiDotsCircleHorizontal/></label>
+                    </div>
+                </div>
+            </div>
             <div className="image-name">
                 <div className="image">
                     <img src={`./image/${currentFriend.image}`} alt="" />
