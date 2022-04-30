@@ -4,7 +4,7 @@ import { RiGalleryLine } from "react-icons/ri"
 import { BiMessageAltEdit } from "react-icons/bi"
 import { AiFillGift } from "react-icons/ai"
 
-const MessageSend = () =>  {
+const MessageSend = ({inputHandle, newMessage, sendMessage}) =>  {
 
     const emojis = [
         "😄", "😁", "😆", "😅", "😂", "🤣",
@@ -33,10 +33,10 @@ const MessageSend = () =>  {
                 <AiFillGift title="Add Gift"/>
             </div>
             <div className="message-type">
-                <input type="text" name="message" id="message" className="form-control" placeholder="Type message" />
+                <input onChange={inputHandle} value={newMessage} type="text" name="message" id="message" className="form-control" placeholder="Type message" />
                 <label htmlFor="emoji">😀</label>
             </div>
-            <div className="file">
+            <div onClick={sendMessage} className="file">
             ❤️
             </div>
             <div className="emoji-section">

@@ -5,7 +5,7 @@ import { userRegister } from "../../store/actions/authAction"
 import { useAlert } from "react-alert"
 import { SUCCESS_MESSAGE_CLEAR, ERROR_MESSAGE_CLEAR } from "../../store/types/authType"
 
-const Register = ({history}) => {
+const Register = () => {
 
     const alert = useAlert();
     const navigate = useNavigate()
@@ -42,7 +42,7 @@ const Register = ({history}) => {
             })
             console.log(e.target.files[0].name)
         }
-        const reader = new FileReader()
+        const reader = new FileReader() 
 
 
         reader.onload = () => {
@@ -62,6 +62,8 @@ const Register = ({history}) => {
         formData.append("password", password);
         formData.append("confirmPassword", confirmPassword);
         formData.append("image", image);
+
+        console.log(formData)
 
         if(checked === true) {
             dispatch(userRegister(formData))
