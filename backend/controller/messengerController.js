@@ -1,4 +1,5 @@
-const User = require("../models/authModule")
+const User = require("../models/authModel")
+const messageModel = require("../models/messageModel")
 const Serializer = require("sequelize-to-json")
 
 module.exports.getFriends = async (req, res) => { 
@@ -13,3 +14,31 @@ module.exports.getFriends = async (req, res) => {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
     }
 } 
+
+module.exports.messageUploadDB = async (req, res) => {
+    const {senderName, reseverId, message} = req.body
+    const senderId = req.myId
+
+    try {
+        const insertMessage = await messageModel.create({
+            senderId: senderId,
+            senderName: senderName,
+            reseverId: reseverId,
+            message: message,
+            image: ""
+        })
+        res.status(200).json({
+            success: true, 
+            message: {
+                senderId: senderId,
+                senderName: senderName,
+                reseverId: reseverId,
+                message: message,
+                image: ""
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({error:{errorMessage: "Internal server error"}})
+    }
+}

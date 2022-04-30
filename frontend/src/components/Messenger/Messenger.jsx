@@ -6,7 +6,7 @@ import { BiSearch } from "react-icons/bi"
 import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
 import { useDispatch, useSelector } from "react-redux"
-import { getFriends } from "../../store/actions/messengerAction" 
+import { getFriends, messageSend } from "../../store/actions/messengerAction" 
 
 const Messenger = () => {
     const { friends } = useSelector(state => state.messenger)
@@ -21,7 +21,12 @@ const Messenger = () => {
 
     const sendMessage = (e) => {
         e.preventDefault()
-        console.log(newMessage);
+        const data = {
+            senderName : myInfo.userName,
+            reseverId : currentFriend.id,
+            message: newMessage?newMessage:"❤️"
+        }
+        dispatch(messageSend(data))
     }
 
 
@@ -74,7 +79,8 @@ const Messenger = () => {
                                     {
                                         friends && friends.length > 0 ? friends.map ((fd,i) => 
                                             <div onClick={()=>setCurrentFriend(fd)} 
-                                            className="hover-friend" key={i}>
+                                            className={currentFriend.id === fd.id?"hover-friend active":"hover-friend"} 
+                                            key={i}>
                                                 <Friends friend = {fd}/>
                                             </div>
                                         ):"no friend"

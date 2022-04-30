@@ -1,6 +1,6 @@
 const formidable = require("formidable")
 const validator = require("validator")
-const registerModel = require("../models/authModule.js")
+const registerModel = require("../models/authModel.js")
 const fs = require("fs")
 const bcrypt = require("bcrypt")
 const req = require("express/lib/request")
