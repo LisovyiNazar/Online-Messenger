@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { IoIosArrowDropleftCircle } from "react-icons/io"
-import { IoIosCall } from "react-icons/io"
-import { HiDotsCircleHorizontal } from "react-icons/hi"
+import RigthSide from "./RightSide/RightSide"
+import { useDispatch, useSelector } from "react-redux"
+import { getFriends, messageSend } from "../../store/actions/messengerAction" 
+// leftside
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
 import { BiSearch } from "react-icons/bi"
 import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
-import { useDispatch, useSelector } from "react-redux"
-import { getFriends, messageSend } from "../../store/actions/messengerAction" 
-import Message from "./Message/Message"
-import MessageSend from "./MessageSend/MessageSend"
-import FriendInfo from  "./FriendInfo/FriendInfo"
 
 const Messenger = () => {
     const { friends } = useSelector(state => state.messenger)
@@ -97,53 +93,14 @@ const Messenger = () => {
                         </div>
                     </div>
                     <div className="col-9">
-                        <div className="right-side">
-                            <input type="checkbox" id="dot"/>
-                            <div className="row">
-                                <div className="col-8">
-                                    <div className="message-send-show">
-                                        <div className="header">
-                                            <div className="back">
-                                                <div className="icons">
-                                                    <div className="icon">
-                                                        <label htmlFor="friends"><IoIosArrowDropleftCircle/></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="image-name">
-                                                <div className="image">
-                                                    <img src={`./image/${currentFriend.image}`} alt="" />
-                                                    <div className="active-icon"></div>
-                                                </div>
-                                                <div className="name">
-                                                    <h3>{currentFriend.userName}</h3>
-                                                </div>
-                                            </div>
-                                            <div className="icons">
-                                                {/* <div className="icon">
-                                                    <IoIosCall/>
-                                                </div>
-                                                <div className="icon">
-                                                    <BsCameraVideoFill/>
-                                                </div> */}
-                                                <div className="icon">
-                                                    <label htmlFor="dot"><HiDotsCircleHorizontal/></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <Message/>
-                                        <MessageSend 
-                                            inputHandle = {inputHandle}
-                                            newMessage = {newMessage}
-                                            sendMessage = {sendMessage}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="col-4">
-                                    <FriendInfo currentFriend={currentFriend}/>
-                                </div>
-                            </div>
-                        </div>
+                    {
+                        currentFriend?<RigthSide 
+                            currentFriend = {currentFriend}
+                            inputHandle = {inputHandle}
+                            newMessage = {newMessage}
+                            sendMessage = {sendMessage}
+                        />:"Please select your friend"
+                    }
                     </div>
                 </div>          
             </div>
