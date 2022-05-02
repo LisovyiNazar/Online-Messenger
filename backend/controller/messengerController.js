@@ -1,4 +1,6 @@
-const User = require("../models/authModel")
+const formidable = require("formidable")
+const fs = require("fs")
+const User = require("../models/authModel");
 const messageModel = require("../models/messageModel")
 const Serializer = require("sequelize-to-json")
 
@@ -55,4 +57,46 @@ module.exports.messageGet = async (req, res) => {
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
     }
+}
+
+module.exports.imageMessageSend = async (req, res) => {
+    const form = formidable()
+
+    form.parse(req, async (err,fields,files) => { 
+        const senderId = req.myId
+        const { senderName, reseverId, imageName } = fields
+
+        const newPath = __dirname + `../../../frontend/public/image/${imageName}`
+
+        files.image.name = imageName
+
+        try {
+            fs.copyFile(files.image.filepath, newPath, async (err) => {
+                if(err) {
+                    res.status(500).json({error:{errorMessage: "Image upload fail"}})
+                } else {
+                    const insertMessage = await messageModel.create({
+                        senderId: senderId,
+                        senderName: senderName,
+                        reseverId: reseverId,
+                        message: "",
+                        image: files.image.name
+                    })
+                    res.status(201).json({
+                        success: true,
+                        message: {
+                            senderId: senderId,
+                            senderName: senderName,
+                            reseverId: reseverId,
+                            message: "",
+                            image: files.image.name
+                        }
+                    })
+                }
+            })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({error:{errorMessage: "Internal server error"}})
+        }
+    })
 }

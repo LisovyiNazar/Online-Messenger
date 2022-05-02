@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react"
 import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
-import { getFriends, messageSend, getMessage } from "../../store/actions/messengerAction" 
+import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
 import { Link } from "react-router-dom"
 // leftside
 import { BsThreeDots } from "react-icons/bs"
@@ -33,7 +33,26 @@ const Messenger = () => {
         }
         dispatch(messageSend(data))
     }
+
+    const emojiSend = (emoji) => {
+        setNewMessage(`${newMessage}`+emoji)
+    }
     
+    const imageSend = (e) => {
+        if(e.target.files.length !== 0) {
+            const imageName = e.target.files[0].name 
+            const newImageName = Date.now() + imageName
+
+            const formData = new FormData()
+            formData.append("senderName", myInfo.userName)
+            formData.append("reseverId", currentFriend.id)
+            formData.append("image", e.target.files[0])
+            formData.append("imageName", newImageName)
+
+            dispatch(imageMessageSend(formData))
+        }
+    }
+
     useEffect(() => {
         dispatch(getFriends())
     }, [])
@@ -95,7 +114,7 @@ const Messenger = () => {
                                         key={i}>
                                                 <Friends friend = {fd}/>
                                         </div>
-                                    ):"no friend"
+                                    ):""
                                 }
                             </label>
                             </div>
@@ -110,6 +129,8 @@ const Messenger = () => {
                             sendMessage = {sendMessage}
                             message = {message}
                             scrollRef = {scrollRef}
+                            emojiSend = {emojiSend}
+                            imageSend = {imageSend}
                         /> :
                         <div className="login">
                             <div className="text">

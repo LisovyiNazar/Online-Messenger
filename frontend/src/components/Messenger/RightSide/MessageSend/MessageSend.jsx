@@ -4,14 +4,13 @@ import { RiGalleryLine } from "react-icons/ri"
 import { BiMessageAltEdit } from "react-icons/bi"
 import { AiFillGift } from "react-icons/ai"
 
-const MessageSend = ({inputHandle, newMessage, sendMessage}) =>  {
+const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend}) =>  {
 
     const emojis = [
         "😄", "😁", "😆", "😅", "😂", "🤣",
         "😊", "😇", "😉","😄", "😁", "😆", 
         "😅", "😂", "🤣","😊", "😇", "😉"
     ]
-    const emojissIndex ={}
 
     return (
         <div className="message-send-section">
@@ -20,10 +19,10 @@ const MessageSend = ({inputHandle, newMessage, sendMessage}) =>  {
                 <BsPlusCircle title="Add Attachment"/>
             </div>
             <div className="file">
-                <input type="file" id="pic" className="form-control" />
+                <input onChange={imageSend} type="file" id="pic" className="form-control" />
                 <label htmlFor="pic" title="Add Image"><RiGalleryLine/></label>
             </div>
-            <div className="file">
+            {/* <div className="file">
                 <BiMessageAltEdit title="Edit Message"/>
             </div>
             <div className="file">
@@ -31,7 +30,7 @@ const MessageSend = ({inputHandle, newMessage, sendMessage}) =>  {
                     Add Gift
                 </div>
                 <AiFillGift title="Add Gift"/>
-            </div>
+            </div> */}
             <div className="message-type">
                 <input onChange={inputHandle} value={newMessage} type="text" name="message" id="message" className="form-control" placeholder="Type message" />
                 <label htmlFor="emoji">😀</label>
@@ -41,7 +40,7 @@ const MessageSend = ({inputHandle, newMessage, sendMessage}) =>  {
             </div>
             <div className="emoji-section">
                 <div className="emoji">
-                    { emojis.map((e, i) => <span key={i}>{e}</span>) }
+                    { emojis.map((e, i) => <span onClick={() => emojiSend(e)} key={i}>{e}</span>) }
                 </div>
             </div>
         </div>
