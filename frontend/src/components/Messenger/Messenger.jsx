@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
-import { getFriends, messageSend } from "../../store/actions/messengerAction" 
+import { getFriends, messageSend, getMessage } from "../../store/actions/messengerAction" 
+import { Link } from "react-router-dom"
 // leftside
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
@@ -10,11 +11,14 @@ import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
 
 const Messenger = () => {
-    const { friends } = useSelector(state => state.messenger)
+    const scrollRef = useRef()
+    const { friends, message } = useSelector(state => state.messenger)
     const { myInfo } = useSelector(state => state.auth)
     
     const [ currentFriend, setCurrentFriend ] = useState("")
     const [ newMessage, setNewMessage ] = useState("")
+
+    const dispatch = useDispatch()
 
     const inputHandle = (e) => {
         setNewMessage(e.target.value)
@@ -29,10 +33,6 @@ const Messenger = () => {
         }
         dispatch(messageSend(data))
     }
-
-
-
-    const dispatch = useDispatch()
     
     useEffect(() => {
         dispatch(getFriends())
@@ -43,6 +43,15 @@ const Messenger = () => {
             setCurrentFriend(friends[0])
         }
     }, [friends])
+    
+    useEffect(() => {
+        dispatch(getMessage(currentFriend.id))
+    }, [currentFriend?.id])
+    
+    useEffect(() => {
+        scrollRef.current ?.scrollIntoView({behavior:"smooth"})
+    }, [message])
+    
     return (
         <div>
             <div className="messenger">
@@ -99,7 +108,23 @@ const Messenger = () => {
                             inputHandle = {inputHandle}
                             newMessage = {newMessage}
                             sendMessage = {sendMessage}
-                        />:"Please select your friend"
+                            message = {message}
+                            scrollRef = {scrollRef}
+                        /> :
+                        <div className="login">
+                            <div className="text">
+                                For start using messenger
+                            </div>
+                            <div className="text">
+                                <span><Link to="/messenger/register">Register Your Account</Link></span> 
+                            </div>
+                            <div className="text">
+                                If You Already Have an accounr 
+                            </div>
+                            <div className="text">
+                                <span><Link to="/messenger/login">Please LogIn</Link></span> 
+                            </div>
+                        </div>
                     }
                     </div>
                 </div>          

@@ -75,6 +75,7 @@ const Register = () => {
     }
     
     useEffect(() => {
+        
         if(authenticate) {
             navigate("/")
         }
