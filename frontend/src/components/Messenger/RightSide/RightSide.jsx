@@ -1,14 +1,14 @@
-import React from "react";
+import React from "react"
 import { IoIosArrowDropleftCircle } from "react-icons/io"
-import { BsCameraVideoFill } from "react-icons/bs";
+import { BsCameraVideoFill } from "react-icons/bs"
 import { IoIosCall } from "react-icons/io"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
-import Message from "./Message/Message";
-import MessageSend from "./MessageSend/MessageSend";
-import FriendInfo from "./FriendInfo/FriendInfo";
+import Message from "./Message/Message"
+import MessageSend from "./MessageSend/MessageSend"
+import FriendInfo from "./FriendInfo/FriendInfo"
 
 const RigthSide = (props) => {
-    const {currentFriend, inputHandle, newMessage, sendMessage, message, scrollRef, emojiSend, imageSend} = props 
+    const {currentFriend, inputHandle, newMessage, sendMessage, message, scrollRef, emojiSend, imageSend, activeUser} = props
     return (
     <div className="right-side">
         <input type="checkbox" id="dot"/>
@@ -26,7 +26,9 @@ const RigthSide = (props) => {
                         <div className="image-name">
                             <div className="image">
                                 <img src={`./image/${currentFriend.image}`} alt="" />
-                                <div className="active-icon"></div>
+                                {
+                                    activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) ? <div className="active-icon"></div> : ""
+                                }
                             </div>
                             <div className="name">
                                 <h3>{currentFriend.userName}</h3>
@@ -55,7 +57,7 @@ const RigthSide = (props) => {
                 </div>
             </div>
             <div className="col-4">
-                <FriendInfo currentFriend={currentFriend}/>
+                <FriendInfo currentFriend={currentFriend} activeUser={activeUser}/>
             </div>
         </div>
     </div>

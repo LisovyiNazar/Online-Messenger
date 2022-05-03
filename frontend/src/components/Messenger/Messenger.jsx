@@ -3,6 +3,7 @@ import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
 import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
 import { Link } from "react-router-dom"
+import { io } from "socket.io-client"
 // leftside
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
@@ -11,12 +12,14 @@ import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
 
 const Messenger = () => {
+    const socket = useRef()
     const scrollRef = useRef()
     const { friends, message } = useSelector(state => state.messenger)
     const { myInfo } = useSelector(state => state.auth)
     
     const [ currentFriend, setCurrentFriend ] = useState("")
     const [ newMessage, setNewMessage ] = useState("")
+    const [ activeUser, setActiveUser ] = useState("")
 
     const dispatch = useDispatch()
 
@@ -52,6 +55,21 @@ const Messenger = () => {
             dispatch(imageMessageSend(formData))
         }
     }
+
+    useEffect(() => {
+        socket.current = io("ws://localhost:8000")
+    }, [])
+    
+    useEffect(() => {
+        socket.current.emit("addUser", myInfo.id, myInfo)
+    }, [])
+    
+    useEffect(() => {
+        socket.current.on("getUser", (users) => { 
+            const filterUser = users.filter(u => u.userId !== myInfo.id)
+            setActiveUser(filterUser)
+        })
+    }, [])
 
     useEffect(() => {
         dispatch(getFriends())
@@ -103,7 +121,9 @@ const Messenger = () => {
                                 </div>
                             </div>
                             <div className="active-friends">
-                                <ActiveFrind/>
+                                {
+                                    activeUser && activeUser.length > 0 ? activeUser.map((u, i) => <ActiveFrind user={u} setCurrentFriend={setCurrentFriend} key={i}/>)  : ""
+                                }
                             </div>
                             <div className="friends">
                             <label htmlFor="friends">
@@ -131,6 +151,7 @@ const Messenger = () => {
                             scrollRef = {scrollRef}
                             emojiSend = {emojiSend}
                             imageSend = {imageSend}
+                            activeUser = {activeUser}
                         /> :
                         <div className="login">
                             <div className="text">

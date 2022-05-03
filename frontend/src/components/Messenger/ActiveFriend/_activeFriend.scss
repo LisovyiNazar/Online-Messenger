@@ -1,4 +1,6 @@
 .active-friends {
+    display: flex;
+    flex-direction: row;
     .active-friend {
         overflow: hidden;
         .image-active-icon {

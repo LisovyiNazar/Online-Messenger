@@ -2,8 +2,7 @@ import React from "react";
 import { BsChevronDown } from "react-icons/bs"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
 
-const FriendInfo = (props) => {
-    const {currentFriend} = props
+const FriendInfo = ({currentFriend, activeUser}) => {
     return (
         <div className="friend-info">
             <input type="checkbox" id="gallary"/>
@@ -18,9 +17,9 @@ const FriendInfo = (props) => {
                 <div className="image">
                     <img src={`./image/${currentFriend.image}`} alt="" />
                 </div>
-                <div className="active-user">
-                    Active
-                </div>
+                    {
+                        activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) ? <div className="active-user">Active</div> : ""
+                    }
                 <div className="name">
                     <h4>{currentFriend.userName}</h4>
                 </div>
