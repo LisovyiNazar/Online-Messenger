@@ -80,20 +80,20 @@ const Messenger = () => {
                         <div className="left-side">
                             <div className="top">
                                 <div className="image-name">
-                                    <div className="image">
-                                        <img src={`/image/${myInfo.image}`} alt="" />
+                                    <div className="image">                                        
+                                        <img src={`/image/${myInfo === "" ? "account-avatar.png" : myInfo.image }`} alt=""/>
                                     </div>
                                     <div className="name">
                                         <h3>{myInfo.userName}</h3>
                                     </div>
                                 </div>
                                 <div className="icons">
-                                    <div className="icon">
+                                    {/* <div className="icon">
                                         <BsThreeDots/>
                                     </div>
                                     <div className="icon">
                                         <FaEdit></FaEdit>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="friend-search">
