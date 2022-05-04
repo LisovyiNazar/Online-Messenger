@@ -16,8 +16,7 @@
     "rules": {
         "semi":["error", "never"],
         "quotes": ["error", "double", { "avoidEscape": true }],
-        "comma-spacing": ["error", { "before": false, "after": true }],
-        "space-in-brackets": ["error", "always"]
+        "comma-spacing": ["error", { "before": false, "after": true }]
     },
     "plugins": ["html", "prettier", "react-hooks"]  
 }

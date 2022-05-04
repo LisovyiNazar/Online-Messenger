@@ -23,11 +23,18 @@ const Messenger = () => {
     const [ newMessage, setNewMessage ] = useState("")
     const [ activeUser, setActiveUser ] = useState("")
     const [ socketMessage, setSocketMessage ] = useState("")
+    const [ typingMessage, setTypingMessage ] = useState("")
 
     const dispatch = useDispatch()
 
     const inputHandle = (e) => {
         setNewMessage(e.target.value)
+
+        socket.current.emit("typingMessage", {
+            senderId : myInfo.id,
+            reseverId : currentFriend.id,
+            message : e.target.value 
+        })
     }
 
     const sendMessage = (e) => {
@@ -48,6 +55,11 @@ const Messenger = () => {
             image: "",
             time: new Date()
         })
+        socket.current.emit("typingMessage", {
+            senderId : myInfo.id,
+            reseverId : currentFriend.id,
+            message : ""
+        })
         setNewMessage("")
     }
 
@@ -67,6 +79,15 @@ const Messenger = () => {
             formData.append("imageName", newImageName)
 
             dispatch(imageMessageSend(formData))
+            
+            socket.current.emit("sendMessage", {
+                senderId: myInfo.id,
+                senderName : myInfo.userName,
+                reseverId : currentFriend.id,
+                message: "",
+                image: newImageName,
+                time: new Date()
+            })
         }
     }
 
@@ -74,6 +95,9 @@ const Messenger = () => {
         socket.current = io("ws://localhost:8000")
         socket.current.on("getMessage", (data) => {
             setSocketMessage(data)
+        })
+        socket.current.on("getTypingMessage", (data) => {
+            setTypingMessage(data)
         })
     }, [])
     
@@ -173,7 +197,7 @@ const Messenger = () => {
                     </div>
                     <div className="col-9">
                     {
-                        currentFriend?<RigthSide 
+                        currentFriend ? <RigthSide 
                             currentFriend = {currentFriend}
                             inputHandle = {inputHandle}
                             newMessage = {newMessage}
@@ -183,6 +207,7 @@ const Messenger = () => {
                             emojiSend = {emojiSend}
                             imageSend = {imageSend}
                             activeUser = {activeUser}
+                            typingMessage = {typingMessage}
                         /> :
                         <div className="login">
                             <div className="text">

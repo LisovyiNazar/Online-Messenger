@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken")
 
 module.exports.userRegister = async (req, res) => {
     const form = formidable()
-    form.parse(req, async (err,fields,files) => {
+    form.parse(req, async (err, fields, files) => {
         const {userName, email, password, confirmPassword} = fields
         const {image} = files
 
@@ -62,7 +62,7 @@ module.exports.userRegister = async (req, res) => {
                                 const userCreate = await registerModel.create({
                                     userName,
                                     email,
-                                    password: await bcrypt.hash(password,10),
+                                    password: await bcrypt.hash(password, 10),
                                     image: image.originalFilename
                                 })
     
@@ -121,7 +121,7 @@ module.exports.userLogin = async (req, res) => {
             })
 
             if(checkUser) {
-                const matchPassword = await bcrypt.compare(password,checkUser.password)
+                const matchPassword = await bcrypt.compare(password, checkUser.password)
     
                 if(matchPassword) {
                     const token = jwt.sign({
