@@ -62,7 +62,7 @@ module.exports.messageGet = async (req, res) => {
 module.exports.imageMessageSend = async (req, res) => {
     const form = formidable()
 
-    form.parse(req, async (err,fields,files) => { 
+    form.parse(req, async (err, fields, files) => { 
         const senderId = req.myId
         const { senderName, reseverId, imageName } = fields
 

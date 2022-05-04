@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useRef } from "react"
+import React from "react"
+import { useEffect, useState, useRef } from "react"
 import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
 import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
 import { Link } from "react-router-dom"
 import { io } from "socket.io-client"
+import { SOCKET_MESSAGE } from "../../store/types/messengerType"
 // leftside
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
@@ -20,6 +22,7 @@ const Messenger = () => {
     const [ currentFriend, setCurrentFriend ] = useState("")
     const [ newMessage, setNewMessage ] = useState("")
     const [ activeUser, setActiveUser ] = useState("")
+    const [ socketMessage, setSocketMessage ] = useState("")
 
     const dispatch = useDispatch()
 
@@ -34,7 +37,18 @@ const Messenger = () => {
             reseverId : currentFriend.id,
             message: newMessage?newMessage:"❤️"
         }
+        
         dispatch(messageSend(data))
+        
+        socket.current.emit("sendMessage", {
+            senderId: myInfo.id,
+            senderName : myInfo.userName,
+            reseverId : currentFriend.id,
+            message: newMessage?newMessage:"❤️",
+            image: "",
+            time: new Date()
+        })
+        setNewMessage("")
     }
 
     const emojiSend = (emoji) => {
@@ -58,6 +72,9 @@ const Messenger = () => {
 
     useEffect(() => {
         socket.current = io("ws://localhost:8000")
+        socket.current.on("getMessage", (data) => {
+            setSocketMessage(data)
+        })
     }, [])
     
     useEffect(() => {
@@ -71,6 +88,20 @@ const Messenger = () => {
         })
     }, [])
 
+    useEffect(() => {
+        if(socketMessage && currentFriend) {
+            if(socketMessage.senderId === currentFriend.id && socketMessage.reseverId === myInfo.id) {
+                dispatch({
+                    type: SOCKET_MESSAGE,
+                    payload: {
+                        message: socketMessage
+                    }
+                })
+            }
+        }
+        setSocketMessage("")
+    }, [socketMessage])
+    
     useEffect(() => {
         dispatch(getFriends())
     }, [])
@@ -128,7 +159,7 @@ const Messenger = () => {
                             <div className="friends">
                                 <label htmlFor="friends">
                                     {               
-                                        friends && friends.length > 0 ? friends.map ((fd,i) => 
+                                        friends && friends.length > 0 ? friends.map ((fd, i) => 
                                             <div onClick={()=>setCurrentFriend(fd)}
                                             className={currentFriend.id === fd.id?"hover-friend active":"hover-friend"} 
                                             key={i}>

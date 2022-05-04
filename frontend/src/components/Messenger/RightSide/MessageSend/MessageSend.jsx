@@ -1,10 +1,10 @@
-import React , {useRef, useState, useEffect} from "react"
+import React, {useRef, useState, useEffect} from "react"
 import { BsPlusCircle } from "react-icons/bs"
 import { RiGalleryLine } from "react-icons/ri"
 import { BiMessageAltEdit } from "react-icons/bi"
 import { AiFillGift } from "react-icons/ai"
 
-const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend}) =>  {
+const MessageSend = ({ inputHandle, newMessage, sendMessage, emojiSend, imageSend }) =>  {
 
     const ref = useRef()
     const [sort, setSort] = useState(false)
@@ -34,7 +34,6 @@ const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend
 
     return (
         <div className="message-send-section">
-            <input type="checkbox" id="emoji" />
             {/* <div className="file">
                 <BsPlusCircle title="Add Attachment"/>
             </div> */}
@@ -52,8 +51,8 @@ const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend
                 <AiFillGift title="Add Gift"/>
             </div> */}
             <div className="message-type">
-                <input onChange={inputHandle} value={newMessage} type="text" name="message" id="message" className="form-control" placeholder="Type message" />
-                <label onClick={handleSmileClick }>😀</label>
+                <input onChange= {inputHandle } value={newMessage} type="text" name="message" id="message" className="form-control" placeholder="Type message" />
+                <label onClick={ handleSmileClick }>😀</label>
             </div>
             <div onClick={sendMessage} className="file">
             ❤️
@@ -61,7 +60,7 @@ const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend
             {sort && ( <div className="emoji-section" ref={ref}>
                  <div className="emoji">
                     { 
-                        emojis.map((e, i) => <span onClick={() => {emojiSend(e)}} key={i}>{e}</span>) 
+                        emojis.map((e, i) => <span onClick={ () => { emojiSend(e) } } key={i}>{e}</span>) 
                     }
                 </div> 
                 

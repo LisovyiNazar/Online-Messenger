@@ -2,7 +2,7 @@ import React from "react"
 import { BsChevronDown } from "react-icons/bs"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
 
-const FriendInfo = ({currentFriend, activeUser}) => {
+const FriendInfo = ({ currentFriend, activeUser }) => {
     return (
         <div className="friend-info">
             <input type="checkbox" id="gallary"/>

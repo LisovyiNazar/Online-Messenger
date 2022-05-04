@@ -15,7 +15,16 @@
     },
     "rules": {
         "semi":["error", "never"],
-        "quotes": ["error", "double", { "avoidEscape": true }]
+        "quotes": ["error", "double", { "avoidEscape": true }],
+        "comma-spacing": ["error", { "before": false, "after": true }],
+        // "space-in-brackets": ["error", "always", {
+        //     "singleValue": false,
+        //     "objectsInArrays": false,
+        //     "arraysInArrays": false,
+        //     "arraysInObjects": false,
+        //     "objectsInObjects": false,
+        //     "propertyName": false
+        //   }]
     },
     "plugins": ["html", "prettier", "react-hooks"]  
 }

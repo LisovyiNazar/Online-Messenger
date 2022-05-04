@@ -9,15 +9,19 @@ const io = require("socket.io")(8000, {
 
 let users = []
 
-const addUser = (userId,socketId,userInfo) => {
+const addUser = (userId, socketId, userInfo) => {
     const checkUser = users.some(u => u.userId === userId)
     if(!checkUser) {
-        users.push({userId,socketId,userInfo})
+        users.push({userId, socketId, userInfo})
     }
 }
 
 const userRemove = (socketId) => {
     users = users.filter(u => u.socketId !== socketId)
+}
+
+const findFriend = (id) => {
+    return users.find(u => u.userId === id)
 }
 
 io.on("connection", (socket) => {
@@ -26,6 +30,21 @@ io.on("connection", (socket) => {
         addUser(userId, socket.id, userInfo)
         io.emit("getUser", users)
     })
+
+    socket.on("sendMessage", (data) => {
+        const user = findFriend(data.reseverId)
+        if(user !== undefined) {
+            socket.to(user.socketId).emit("getMessage", {
+                senderId: data.senderId,
+                senderName: data.senderName,
+                reseverId: data.reseverId,
+                createAt: data.time,
+                message: data.message,
+                image: data.image
+            })
+        }
+    })
+
     socket.on("disconnect", () => {
         console.log("user disconnect......")
         userRemove(socket.id)

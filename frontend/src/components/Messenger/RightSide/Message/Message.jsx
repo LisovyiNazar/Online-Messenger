@@ -1,18 +1,18 @@
 import React from "react"
 import { useSelector } from "react-redux"
 
-const Message = ({message, currentFriend, scrollRef}) => {
+const Message = ({ message, currentFriend, scrollRef }) => {
     const { myInfo } = useSelector(state => state.auth)    
     return (
         <div className="message-show">
             {
-                message && message.length > 0 ? message.map((m,i) => 
+                message && message.length > 0 ? message.map((m, i) => 
                     m.senderId == myInfo.id ? 
-                    <div ref={scrollRef} key={i} className="my-message">
+                    <div ref={ scrollRef } key={i} className="my-message">
                         <div className="image-message">
                             <div className="my-text">
                                 <p className="message-text">
-                                    {m.message === ''?<img src={`./image/${m.image}`} alt="image"/>:m.message}
+                                    {m.message === ""?<img src={`./image/${m.image}`} alt="image"/>:m.message}
                                 </p>
                             </div>
                         </div>
@@ -26,7 +26,7 @@ const Message = ({message, currentFriend, scrollRef}) => {
                             <div className="message-time">
                                 <div className="fd-text">
                                     <p className="message-text">
-                                    {m.message === ''?<img src={`./image/${m.image}`} alt="image"/>:m.message}
+                                    { m.message === ""?<img src={`./image/${m.image}`} alt="image"/>:m.message }
                                     </p>
                                 </div>
                                 <div className="time">
