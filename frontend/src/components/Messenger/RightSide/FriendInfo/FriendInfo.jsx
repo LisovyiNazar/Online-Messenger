@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { BsChevronDown } from "react-icons/bs"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
 

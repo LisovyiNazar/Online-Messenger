@@ -1,5 +1,5 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from "react"
+import { useSelector } from "react-redux"
 
 const Message = ({message, currentFriend, scrollRef}) => {
     const { myInfo } = useSelector(state => state.auth)    

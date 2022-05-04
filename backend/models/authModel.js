@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize")
 const db = require("../config/database.js")
 
-const { DataTypes } = Sequelize;
+const { DataTypes } = Sequelize
 
 const registerSchema = db.define("users",{
     userName: {

@@ -1,6 +1,6 @@
 const formidable = require("formidable")
 const fs = require("fs")
-const User = require("../models/authModel");
+const User = require("../models/authModel")
 const messageModel = require("../models/messageModel")
 const Serializer = require("sequelize-to-json")
 
@@ -52,7 +52,7 @@ module.exports.messageGet = async (req, res) => {
         const allMessageJson = Serializer.serializeMany(getAllMessage, messageModel)
         const myMessageJson = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${fdId}`)
         const fdMessageJson = allMessageJson.filter((m => m.senderId === `${fdId}` &&  m.reseverId === `${myId}`)) 
-        const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id);})
+        const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id)})
         res.status(200).json({success: true, message: getAllMessageJsonFilter})
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
@@ -95,7 +95,6 @@ module.exports.imageMessageSend = async (req, res) => {
                 }
             })
         } catch (error) {
-            console.log(error);
             res.status(500).json({error:{errorMessage: "Internal server error"}})
         }
     })

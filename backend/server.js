@@ -1,4 +1,4 @@
-const express = require('express')
+const express = require("express")
 const app = express()
 
 const dotenv = require("dotenv")
@@ -23,15 +23,15 @@ app.use("/api/messenger", authRouter)
 app.use("/api/messenger", messengerRoute)
 
 try {
-  databaseConnect.authenticate();
-  console.log('Database connected...');
+  databaseConnect.authenticate()
+  console.log("Database connected...")
 } catch (error) {
-  console.error('Connection error:', error);
+  console.error("Connection error:", error)
 }
 
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`)
 })

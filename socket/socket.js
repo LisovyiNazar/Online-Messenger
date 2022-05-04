@@ -17,12 +17,12 @@ const addUser = (userId,socketId,userInfo) => {
 }
 
 const userRemove = (socketId) => {
-    users = users.filter(u => u,socketId !== socketId)
+    users = users.filter(u => u.socketId !== socketId)
 }
 
 io.on("connection", (socket) => {
+    console.log("user is connected......")
     socket.on("addUser", (userId, userInfo) => {
-        console.log("user is connected......")
         addUser(userId, socket.id, userInfo)
         io.emit("getUser", users)
     })

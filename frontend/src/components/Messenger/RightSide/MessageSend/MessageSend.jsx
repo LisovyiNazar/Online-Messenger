@@ -1,4 +1,4 @@
-import React , {useRef, useState, useEffect} from "react";
+import React , {useRef, useState, useEffect} from "react"
 import { BsPlusCircle } from "react-icons/bs"
 import { RiGalleryLine } from "react-icons/ri"
 import { BiMessageAltEdit } from "react-icons/bi"
@@ -16,8 +16,8 @@ const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend
     }
 
     useEffect(() => {
-        document.body.addEventListener('click', handleOutSide);
-        return () => document.removeEventListener('click', handleOutSide);
+        document.body.addEventListener("click", handleOutSide)
+        return () => document.removeEventListener("click", handleOutSide)
     }, [])
 
     const emojis = [
@@ -61,7 +61,7 @@ const MessageSend = ({inputHandle, newMessage, sendMessage, emojiSend, imageSend
             {sort && ( <div className="emoji-section" ref={ref}>
                  <div className="emoji">
                     { 
-                        emojis.map((e, i) => <span onClick={() => {emojiSend(e);}} key={i}>{e}</span>) 
+                        emojis.map((e, i) => <span onClick={() => {emojiSend(e)}} key={i}>{e}</span>) 
                     }
                 </div> 
                 

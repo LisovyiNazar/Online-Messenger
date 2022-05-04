@@ -10,7 +10,7 @@ function App() {
       <Route path='/messenger/register' element={<Register/>}/>
       <Route path='/' element={<Messenger/>}/>
     </Routes>
-  );
+  )
 }
 
-export default App;
+export default App

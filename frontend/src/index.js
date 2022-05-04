@@ -1,7 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { BrowserRouter } from 'react-router-dom';
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App'
+import { BrowserRouter } from 'react-router-dom'
 import './main.scss'
 
 import { Provider } from 'react-redux'
@@ -16,7 +16,7 @@ const options = {
       transitions: transitions.SCALE
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
     <BrowserRouter>
       <Provider store={store}>
@@ -25,4 +25,4 @@ root.render(
         </AlertProvider>
       </Provider>
     </BrowserRouter>
-);
+)

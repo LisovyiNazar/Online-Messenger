@@ -7,14 +7,14 @@ import { SUCCESS_MESSAGE_CLEAR, ERROR_MESSAGE_CLEAR } from "../../store/types/au
 
 const Register = () => {
 
-    const alert = useAlert();
+    const alert = useAlert()
     const navigate = useNavigate()
-    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth);
+    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth)
 
-    const [checked, setX] = useState(false);
+    const [checked, setX] = useState(false)
 
     const soldCheckbox = ({ target: { checked } }) => {
-        setX(checked);
+        setX(checked)
     }
 
     const [state,setstate] = useState({
@@ -40,7 +40,6 @@ const Register = () => {
                 ...state,
                 [e.target.name] : e.target.files[0]
             })
-            console.log(e.target.files[0].name)
         }
         const reader = new FileReader() 
 
@@ -57,13 +56,11 @@ const Register = () => {
         const {userName, email, password ,confirmPassword, image} = state
 
         const formData = new FormData()
-        formData.append("userName", userName);
-        formData.append("email", email);
-        formData.append("password", password);
-        formData.append("confirmPassword", confirmPassword);
-        formData.append("image", image);
-
-        console.log(formData)
+        formData.append("userName", userName)
+        formData.append("email", email)
+        formData.append("password", password)
+        formData.append("confirmPassword", confirmPassword)
+        formData.append("image", image)
 
         if(checked === true) {
             dispatch(userRegister(formData))

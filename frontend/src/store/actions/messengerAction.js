@@ -55,7 +55,6 @@ export const imageMessageSend = (data) => async(dispatch) => {
                 message : response.data.message
             }
         })
-        console.log(response.data)
     } catch (error) {
         console.log(error.response.data)
     }

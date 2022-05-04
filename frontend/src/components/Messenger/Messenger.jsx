@@ -126,17 +126,17 @@ const Messenger = () => {
                                 }
                             </div>
                             <div className="friends">
-                            <label htmlFor="friends">
-                                {               
-                                    friends && friends.length > 0 ? friends.map ((fd,i) => 
-                                        <div onClick={()=>setCurrentFriend(fd)}
-                                        className={currentFriend.id === fd.id?"hover-friend active":"hover-friend"} 
-                                        key={i}>
-                                                <Friends friend = {fd}/>
-                                        </div>
-                                    ):""
-                                }
-                            </label>
+                                <label htmlFor="friends">
+                                    {               
+                                        friends && friends.length > 0 ? friends.map ((fd,i) => 
+                                            <div onClick={()=>setCurrentFriend(fd)}
+                                            className={currentFriend.id === fd.id?"hover-friend active":"hover-friend"} 
+                                            key={i}>
+                                                    <Friends friend = {fd}/>
+                                            </div>
+                                        ):""
+                                    }
+                                </label>
                             </div>
                         </div>
                     </div>
