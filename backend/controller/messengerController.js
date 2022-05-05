@@ -6,12 +6,26 @@ const Serializer = require("sequelize-to-json")
 
 module.exports.getFriends = async (req, res) => { 
     const myId = req.myId
-    try {
-        const friendsGet = await User.findAll().then((friendsGet) => { 
-            const friendsGetJson = Serializer.serializeMany(friendsGet, User)
-            const friendsGetJsonFilter = friendsGetJson.filter(d => d.id !== myId)
-            res.status(200).json({success: true, friends: friendsGetJsonFilter})
-        })
+    const friendsLastMessages = []
+
+    try {    
+        const getAllUsers = await User.findAll()
+        const friendsGetJson = Serializer.serializeMany(getAllUsers, User).filter(d => d.id !== myId)
+
+        for (let i = 0; i < friendsGetJson.length; i++) {
+            const getAllMessage = await messageModel.findAll()
+            
+            const allMessageJson = Serializer.serializeMany(getAllMessage, messageModel)
+            
+            const myMessage = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${friendsGetJson[i].id}`)
+            const fdMessage = allMessageJson.filter((m => m.senderId === `${friendsGetJson[i].id}` &&  m.reseverId === `${myId}`)) 
+            
+            const allChatMessage = myMessage.concat(fdMessage).sort(function(a, b) {return (a.id - b.id)})
+            
+            friendsLastMessages.push({friendInfo: friendsGetJson[i], messageInfo: allChatMessage.reverse()[0]})
+        }
+
+        res.status(200).json({success: true, friends: friendsLastMessages})
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
     }
@@ -48,21 +62,13 @@ module.exports.messageGet = async (req, res) => {
     const myId = req.myId
     const fdId = req.params.id
     try {
-        const getAllMessage = await messageModel.findAll({
-            $or: [
-                {
-                    $and: [{senderId: {$eq:myId}}, {reseverId: {$eq:fdId}}]
-                }, 
-                {
-                    $and: [{senderId: {$eq:fdId}}, {reseverId: {$eq:myId}}]
-                }
-            ]
-        })
+        const getAllMessage = await messageModel.findAll()
         const allMessageJson = Serializer.serializeMany(getAllMessage, messageModel)
-        // const myMessageJson = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${fdId}`)
-        // const fdMessageJson = allMessageJson.filter((m => m.senderId === `${fdId}` &&  m.reseverId === `${myId}`)) 
-        // const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id)})
-        res.status(200).json({success: true, message: allMessageJson})
+        const myMessageJson = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${fdId}`)
+        const fdMessageJson = allMessageJson.filter((m => m.senderId === `${fdId}` &&  m.reseverId === `${myId}`)) 
+        const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id)})
+        
+        res.status(200).json({success: true, message: getAllMessageJsonFilter})
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
     }
