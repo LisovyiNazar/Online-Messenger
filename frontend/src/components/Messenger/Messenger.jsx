@@ -6,6 +6,10 @@ import { getFriends, messageSend, getMessage, imageMessageSend } from "../../sto
 import { Link } from "react-router-dom"
 import { io } from "socket.io-client"
 import { SOCKET_MESSAGE } from "../../store/types/messengerType"
+import toast, { Toaster } from "react-hot-toast"
+import useSound from "use-sound"
+import notificationSound from "../../audio/getMessage.mp3"
+import sendindSound from "../../audio/sendMessage.mp3"
 // leftside
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
@@ -14,6 +18,8 @@ import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
 
 const Messenger = () => {
+    const [notificationAudio] = useSound(notificationSound)
+    const [sendingAudio] = useSound(sendindSound)
     const socket = useRef()
     const scrollRef = useRef()
     const { friends, message } = useSelector(state => state.messenger)
@@ -33,11 +39,12 @@ const Messenger = () => {
         socket.current.emit("typingMessage", {
             senderId : myInfo.id,
             reseverId : currentFriend.id,
-            message : e.target.value 
+            message : e.target.value
         })
     }
 
     const sendMessage = (e) => {
+        sendingAudio()
         e.preventDefault()
         const data = {
             senderName : myInfo.userName,
@@ -65,6 +72,11 @@ const Messenger = () => {
 
     const emojiSend = (emoji) => {
         setNewMessage(`${newMessage}`+emoji)
+        socket.current.emit("typingMessage", {
+            senderId : myInfo.id,
+            reseverId : currentFriend.id,
+            message : emoji
+        })
     }
     
     const imageSend = (e) => {
@@ -89,6 +101,7 @@ const Messenger = () => {
                 time: new Date()
             })
         }
+        sendingAudio()
     }
 
     useEffect(() => {
@@ -127,6 +140,14 @@ const Messenger = () => {
     }, [socketMessage])
     
     useEffect(() => {
+        // && socketMessage.senderId === currentFriend.id && socketMessage.reseverId === myInfo.id
+        if(socketMessage) {
+            notificationAudio()
+            toast.success(`${socketMessage.senderName} send a new message`)
+        }
+    }, [socketMessage])
+    
+    useEffect(() => {
         dispatch(getFriends())
     }, [])
 
@@ -147,6 +168,16 @@ const Messenger = () => {
     return (
         <div>
             <div className="messenger">
+                <Toaster
+                    position = {"top-right"}
+                    reverseOrder = { false }
+                    toastOptions = {{
+                        style: {
+                            fontSize: "18px"
+                        }
+                    }}
+
+                />
                 <input type="checkbox" id="friends"/>
                 <div className="row">
                     <div className="col-3">

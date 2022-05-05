@@ -51,7 +51,7 @@ const MessageSend = ({ inputHandle, newMessage, sendMessage, emojiSend, imageSen
                 <AiFillGift title="Add Gift"/>
             </div> */}
             <div className="message-type">
-                <input onChange= {inputHandle } value={newMessage} type="text" name="message" id="message" className="form-control" placeholder="Type message" />
+                <input onChange= {inputHandle } value={newMessage} type="text" name="message" id="sendMessage" className="form-control" placeholder="Type message" />
                 <label onClick={ handleSmileClick }>😀</label>
             </div>
             <div onClick={sendMessage} className="file">
