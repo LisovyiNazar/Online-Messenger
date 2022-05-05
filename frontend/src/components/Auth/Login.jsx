@@ -12,7 +12,7 @@ const Login = () => {
     const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth)
     const dispatch = useDispatch()
     
-    const [state,setState] = useState({
+    const [state, setState] = useState({
         email: "",
         password: "",
     })
@@ -46,7 +46,7 @@ const Login = () => {
                 type: ERROR_MESSAGE_CLEAR
             })
         }
-    },[successMessage, error])
+    }, [successMessage, error])
 
 
     return (

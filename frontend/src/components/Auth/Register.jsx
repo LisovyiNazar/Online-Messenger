@@ -17,7 +17,7 @@ const Register = () => {
         setX(checked)
     }
 
-    const [state,setstate] = useState({
+    const [state, setstate] = useState({
         userName: "",
         email: "",
         password: "",
@@ -25,7 +25,7 @@ const Register = () => {
         image: ""
     })
 
-    const [loadImage,setLoadImage] = useState("")
+    const [loadImage, setLoadImage] = useState("")
 
     const inputHendle = (e) => {
         setstate({
@@ -53,7 +53,7 @@ const Register = () => {
     const dispatch = useDispatch()
 
     const register = e => {
-        const {userName, email, password ,confirmPassword, image} = state
+        const {userName, email, password, confirmPassword, image} = state
 
         const formData = new FormData()
         formData.append("userName", userName)
@@ -89,7 +89,7 @@ const Register = () => {
                 type: ERROR_MESSAGE_CLEAR
             })
         }
-    },[successMessage, error])
+    }, [successMessage, error])
 
     return (
         <div className="register">
@@ -118,7 +118,7 @@ const Register = () => {
                         <div className="form-group">
                             <div className="file-image">
                                 <div className="image">
-                                    {loadImage ? <img src = {loadImage} alt=""/> : ''}
+                                    {loadImage ? <img src = {loadImage} alt=""/> : ""}
                                 </div>
                                 <div className="file">
                                     <label htmlFor="image">Select Image</label>
