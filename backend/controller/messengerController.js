@@ -24,7 +24,6 @@ module.exports.getFriends = async (req, res) => {
             
             friendsLastMessages.push({friendInfo: friendsGetJson[i], messageInfo: allChatMessage.reverse()[0]})
         }
-
         res.status(200).json({success: true, friends: friendsLastMessages})
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})

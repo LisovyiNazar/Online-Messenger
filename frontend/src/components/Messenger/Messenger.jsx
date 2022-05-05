@@ -218,7 +218,7 @@ const Messenger = () => {
                                             <div onClick={()=>setCurrentFriend(fd.friendInfo)}
                                             className={currentFriend.id === fd.friendInfo.id?"hover-friend active":"hover-friend"} 
                                             key={i}>
-                                                    <Friends friend = {fd}/>
+                                                    <Friends friend = {fd} myId = {myInfo.id}/>
                                             </div>
                                         ):""
                                     }
