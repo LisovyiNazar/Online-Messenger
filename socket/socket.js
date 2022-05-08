@@ -27,8 +27,10 @@ const findFriend = (id) => {
 io.on("connection", (socket) => {
     console.log("user is connected......")
     socket.on("addUser", (userId, userInfo) => {
-        addUser(userId, socket.id, userInfo)
-        io.emit("getUser", users)
+        if(userId) {
+            addUser(userId, socket.id, userInfo)
+            io.emit("getUser", users)
+        }
     })
 
     socket.on("sendMessage", (data) => {

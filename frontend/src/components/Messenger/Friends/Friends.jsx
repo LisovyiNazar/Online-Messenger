@@ -19,28 +19,16 @@ const Friends = (props) => {
                         }
                     </h4>
                     <div className="msg-time">
-                        
                         {
-                            messageInfo.message && messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> 
+                            messageInfo ? messageInfo.image !== "" ? <span>Send an image</span> : messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> : ""
                         }
-                        {
-                            messageInfo.image === "" ? "" : "send an image" 
-                        }
+                        {/* {
+                            messageInfo ? messageInfo.image !== "" ? <span>Send an image</span> : "" : ""
+                        } */}
                         <span>{messageInfo ? moment(messageInfo.createdAt).startOf("mini").fromNow() : moment(friendInfo.createdAt).startOf("mini").fromNow()}</span>
                     </div>
                 </div>
             </div>
-            {
-                myId === messageInfo?.senderId ? 
-                <div className="seen-unseen-icon">
-                    <img src={`./image/${friendInfo.image}`}  alt=""/>
-                </div> : 
-                <div className="seen-unseen-icon">
-                    <div className="seen-icon">
-
-                    </div>
-                </div>
-            }
         </div>
     )
 }

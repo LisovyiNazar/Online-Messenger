@@ -17,7 +17,7 @@
         .friend {
             display: flex;
             width: 100%;
-            padding: 7px 15px;
+            padding: 5px 10px;
             .friend-image {
                 .image {
                     width: 45px;
@@ -45,15 +45,15 @@
                     h4 {
                         color: #ffffff;
                         font-weight: 600;
+                        padding-left: 7px;
                     }
                     .msg-time {
                         width: 100%;
                         display: flex;
                         // justify-content: space-between;
-                        align-items: center;
                         span {
-                            font-size: 12px;
-                            padding-right: 15px;
+                            font-size: 10px;
+                            padding: 4px 0px 0px 7px;
                         }
                     }
                 }

@@ -25,7 +25,7 @@ export const messengerReducer = (state = messengerState, action) => {
     if(type === MESSAGE_SEND_SUCCESS) { 
         return {
             ...state,
-            message : [...state.message, payload.message]
+            message : [...state.message, payload.message],
         }
     }
     

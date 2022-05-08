@@ -68,6 +68,7 @@ const Messenger = () => {
             message : ""
         })
         setNewMessage("")
+        dispatch(getFriends())
     }
 
     const emojiSend = (emoji) => {
@@ -77,6 +78,7 @@ const Messenger = () => {
             reseverId : currentFriend.id,
             message : emoji
         })
+        dispatch(getFriends())
     }
     
     const imageSend = (e) => {
@@ -102,6 +104,7 @@ const Messenger = () => {
             })
         }
         sendingAudio()
+        dispatch(getFriends())
     }
 
     useEffect(() => {
@@ -140,25 +143,25 @@ const Messenger = () => {
     }, [socketMessage])
     
     useEffect(() => {
-        // && socketMessage.senderId === currentFriend.id && socketMessage.reseverId === myInfo.id
         if(socketMessage) {
             notificationAudio()
             toast.success(`${socketMessage.senderName} send a new message`)
+            dispatch(getFriends())
         }
     }, [socketMessage])
     
     useEffect(() => {
-        dispatch(getFriends())
+        if(myInfo) {
+            dispatch(getFriends())
+        }
     }, [])
 
-    useEffect(() => {
-        if(friends && friends.length > 0){
-            setCurrentFriend(friends[0].friendInfo)
-        }
-    }, [friends])
+
     
     useEffect(() => {
-        dispatch(getMessage(currentFriend.id))
+        if(myInfo) {
+            dispatch(getMessage(currentFriend.id))
+        }
     }, [currentFriend?.id])
     
     useEffect(() => {
@@ -188,9 +191,12 @@ const Messenger = () => {
                                         <img src={`/image/${myInfo === "" ? "account-avatar.png" : myInfo.image }`} alt=""/>
                                     </div>
                                     <div className="name">
-                                        <h3>{myInfo.userName}</h3>
+                                        <h3>{myInfo.userName}</h3> 
                                     </div>
                                 </div>
+                                    {
+                                        myInfo ? "" : <span><Link to="/messenger/register">SingUp</Link> / <Link to="/messenger/login">SignIn</Link></span> 
+                                    }
                                 <div className="icons">
                                     {/* <div className="icon">
                                         <BsThreeDots/>
@@ -200,15 +206,20 @@ const Messenger = () => {
                                     </div> */}
                                 </div>
                             </div>
-                            <div className="friend-search">
-                                <div className="search">
-                                    <button><BiSearch/></button>
-                                    <input type="text" placeholder="search" className="form-control" />
+                            {
+                                myInfo ? 
+                                <div className="friend-search">
+                                    <div className="search">
+                                        <button><BiSearch/></button>
+                                        <input type="text" placeholder="search" className="form-control" />
+                                    </div>
                                 </div>
-                            </div>
+                                : ""
+                            }
+                           
                             <div className="active-friends">
                                 {
-                                    activeUser && activeUser.length > 0 ? activeUser.map((u, i) => <ActiveFrind user={u} setCurrentFriend={setCurrentFriend} key={i}/>)  : ""
+                                    myInfo && activeUser && activeUser.length > 0 ? activeUser.map((u, i) => <ActiveFrind user={u} setCurrentFriend={setCurrentFriend} key={i}/>)  : ""
                                 }
                             </div>
                             <div className="friends">
@@ -239,19 +250,24 @@ const Messenger = () => {
                             imageSend = {imageSend}
                             activeUser = {activeUser}
                             typingMessage = {typingMessage}
-                        /> :
+                        /> : !myInfo ?
                         <div className="login">
+                            <div className="text">
+                                <img src="/image/chat.png" alt="" />
+                            </div>
                             <div className="text">
                                 For start using messenger
                             </div>
                             <div className="text">
-                                <span><Link to="/messenger/register">Register Your Account</Link></span> 
+                                <span><Link to="/messenger/register">SingUp</Link>/<Link to="/messenger/login">SignIn</Link></span> 
+                            </div>
+                        </div> : 
+                            <div className="login">
+                            <div className="text">
+                                <img src="/image/chat.png" alt="" />
                             </div>
                             <div className="text">
-                                If You Already Have an accounr 
-                            </div>
-                            <div className="text">
-                                <span><Link to="/messenger/login">Please LogIn</Link></span> 
+                                Select chat for messaging
                             </div>
                         </div>
                     }

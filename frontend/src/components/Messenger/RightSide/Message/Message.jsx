@@ -2,18 +2,20 @@ import React from "react"
 import { useSelector } from "react-redux"
 
 const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
-    const { myInfo } = useSelector(state => state.auth)    
+    const { myInfo } = useSelector(state => state.auth) 
+    console.log(myInfo.id)
+    console.log(message)
     return (
         <>
             <div className="message-show">
             {
                 message && message.length > 0 ? message.map((m, i) => 
-                    m.senderId == myInfo.id ? 
+                myInfo.id == m.senderId ? 
                     <div ref={ scrollRef } key={i} className="my-message">
                         <div className="image-message">
                             <div className="my-text">
                                 <p className="message-text">
-                                    {m.message === ""?<img src={`./image/${m.image}`} alt=""/>:m.message}
+                                    {m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message}
                                 </p>
                             </div>
                         </div>
@@ -27,7 +29,7 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                             <div className="message-time">
                                 <div className="fd-text">
                                     <p className="message-text">
-                                    { m.message === ""?<img src={`./image/${m.image}`} alt=""/>:m.message }
+                                    { m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message }
                                     </p>
                                 </div>
                                 <div className="time">
@@ -36,7 +38,7 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                             </div>
                         </div>
                     </div>
-                ):""
+                ) : ""
             }
             </div>
             {
