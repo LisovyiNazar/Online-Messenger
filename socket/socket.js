@@ -58,6 +58,12 @@ io.on("connection", (socket) => {
         }
     })
 
+    socket.on("logout", () => {
+        console.log("user logout......")
+        userRemove(socket.id)
+        io.emit("getUser", users)
+    })
+
     socket.on("disconnect", () => {
         console.log("user disconnect......")
         userRemove(socket.id)

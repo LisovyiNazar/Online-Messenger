@@ -3,6 +3,7 @@ import { useEffect, useState, useRef } from "react"
 import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
 import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
+import { userLogOut } from "../../store/actions/authAction"
 import { Link } from "react-router-dom"
 import { io } from "socket.io-client"
 import { SOCKET_MESSAGE } from "../../store/types/messengerType"
@@ -16,6 +17,7 @@ import { FaEdit } from "react-icons/fa"
 import { BiSearch } from "react-icons/bi"
 import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
+import { IoIosLogOut } from "react-icons/io"
 
 const Messenger = () => {
     const [notificationAudio] = useSound(notificationSound)
@@ -30,6 +32,7 @@ const Messenger = () => {
     const [ activeUser, setActiveUser ] = useState("")
     const [ socketMessage, setSocketMessage ] = useState("")
     const [ typingMessage, setTypingMessage ] = useState("")
+    const [ hideMenu, setHideMenu ] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -107,6 +110,27 @@ const Messenger = () => {
         dispatch(getFriends())
     }
 
+    const logOut = () => {
+        socket.current.emit("logout")
+        dispatch(userLogOut())
+    }
+
+    const handleOutSide = (e) => {
+        if (!e.path.includes(scrollRef.current)) {
+            setHideMenu(false)
+        } 
+    }
+
+    useEffect(() => {
+        document.body.addEventListener("click", handleOutSide)
+        return () => document.removeEventListener("click", handleOutSide)
+    }, [])
+
+    const handleMenuClick = (e) => {
+        e.stopPropagation()
+        setHideMenu(prev => !prev)
+    }
+
     useEffect(() => {
         socket.current = io("ws://localhost:8000")
         socket.current.on("getMessage", (data) => {
@@ -155,8 +179,6 @@ const Messenger = () => {
             dispatch(getFriends())
         }
     }, [])
-
-
     
     useEffect(() => {
         if(myInfo) {
@@ -198,12 +220,22 @@ const Messenger = () => {
                                         myInfo ? "" : <span><Link to="/messenger/register">SingUp</Link> / <Link to="/messenger/login">SignIn</Link></span> 
                                     }
                                 <div className="icons">
-                                    {/* <div className="icon">
+                                    <div className="icon" onClick={handleMenuClick}>
                                         <BsThreeDots/>
                                     </div>
-                                    <div className="icon">
-                                        <FaEdit></FaEdit>
-                                    </div> */}
+                                    <div className={hideMenu ? "theme-logout show" : "theme-logout"}>
+                                        <h3>Dark Mode</h3>
+                                        <div className="on"><label htmlFor="dark"><input type="radio" name="theme" value="dark" /><span>ON</span></label></div>
+                                        <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div>
+                                        {
+                                            myInfo ? 
+                                            <div className="logout" onClick={logOut}>
+                                                <IoIosLogOut/>
+                                                <span>LogOut</span> 
+                                            </div> : ""
+                                        }
+                                        
+                                    </div>
                                 </div>
                             </div>
                             {
@@ -259,7 +291,7 @@ const Messenger = () => {
                                 For start using messenger
                             </div>
                             <div className="text">
-                                <span><Link to="/messenger/register">SingUp</Link>/<Link to="/messenger/login">SignIn</Link></span> 
+                                <span><Link to="/messenger/register">SingUp</Link> / <Link to="/messenger/login">SignIn</Link></span> 
                             </div>
                         </div> : 
                             <div className="login">

@@ -3,8 +3,6 @@ import { useSelector } from "react-redux"
 
 const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
     const { myInfo } = useSelector(state => state.auth) 
-    console.log(myInfo.id)
-    console.log(message)
     return (
         <>
             <div className="message-show">

@@ -1,4 +1,5 @@
 import { FRIENDS_GET_SUCCESS, MESSAGE_GET_SUCCESS, MESSAGE_SEND_SUCCESS, SOCKET_MESSAGE } from "../types/messengerType"
+import { LOGOUT_SUCCESS } from "../types/authType"
 
 const messengerState = {
     friends: [],
@@ -33,6 +34,14 @@ export const messengerReducer = (state = messengerState, action) => {
         return {
             ...state,
             message : [...state.message, payload.message]
+        }
+    }
+    
+    if(type === LOGOUT_SUCCESS) { 
+        return {
+            ...state,
+            friends: [],
+            message: []
         }
     }
 

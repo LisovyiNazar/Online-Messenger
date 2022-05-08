@@ -53,6 +53,7 @@
                 .icons {
                     width: 50px;
                     display: flex;
+                    position: relative;
                     .icon {
                         display: flex;
                         padding: 8px;
@@ -61,6 +62,39 @@
                         border-radius: 24px;
                         color: #ffffff;
                         cursor: pointer;
+                    }
+                    .theme-logout {
+                        width: 200px;
+                        background-color: #213156bf;
+                        transform: scale(0);
+                        position: absolute;
+                        transition: all .3s;
+                        top: 110%;
+                        left: -290%;
+                        padding: 10px;
+                        .on, .off {
+                            label {
+                                cursor: pointer;
+                            }
+                            span {
+                                padding-left: 12px;
+                            }
+                            display: flex;
+                            justify-content: space-between;
+                            margin-top: 10px;
+                        }
+                    }
+                    .theme-logout.show {
+                        transform: scale(1);
+                    }
+                    .logout {
+                        display: flex;
+                        align-items: center;
+                        margin-top: 10px;
+                        span {
+                            padding-left: 10px;
+                            cursor: pointer;
+                        }
                     }
                 }
             }

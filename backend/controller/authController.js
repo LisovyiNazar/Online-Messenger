@@ -151,5 +151,10 @@ module.exports.userLogin = async (req, res) => {
             res.status(404).json({error:{errorMessage:["Internal server error"]}})
         }
     }
+}
 
+module.exports.userLogout = async (req, res) => { 
+    res.status(201).cookie("authToken", "").json({
+        success: true,
+    })
 }
