@@ -120,16 +120,30 @@ const Messenger = () => {
             setHideMenu(false)
         } 
     }
+    
+    const handleMenuClick = (e) => {
+        e.stopPropagation()
+        setHideMenu(prev => !prev)
+    }
+
+    const search = (e) => {
+        const getFriendClass = document.getElementsByClassName("friend")
+        const getFriendNameClass = document.getElementsByClassName("fd-name")
+        for (let i = 0; i < getFriendNameClass.length; i++) {
+            const text = getFriendNameClass[i].innerHTML.toLowerCase()
+            if(text.indexOf(e.target.value.toLowerCase()) > -1) {
+                getFriendClass[i].style.display = ""
+            } else {
+                getFriendClass[i].style.display = "none"
+            }
+        }
+    }
 
     useEffect(() => {
         document.body.addEventListener("click", handleOutSide)
         return () => document.removeEventListener("click", handleOutSide)
     }, [])
 
-    const handleMenuClick = (e) => {
-        e.stopPropagation()
-        setHideMenu(prev => !prev)
-    }
 
     useEffect(() => {
         socket.current = io("ws://localhost:8000")
@@ -190,7 +204,7 @@ const Messenger = () => {
     useEffect(() => {
         scrollRef.current ?.scrollIntoView({behavior:"smooth"})
     }, [message])
-    
+
     return (
         <div>
             <div className="messenger">
@@ -244,7 +258,7 @@ const Messenger = () => {
                                 <div className="friend-search">
                                     <div className="search">
                                         <button><BiSearch/></button>
-                                        <input type="text" placeholder="search" className="form-control" />
+                                        <input onChange={search} type="text" placeholder="search" className="form-control" />
                                     </div>
                                 </div>
                                 : ""

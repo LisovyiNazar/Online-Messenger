@@ -15,7 +15,7 @@ const Friends = (props) => {
                 <div className="friend-name">
                     <h4>
                         {
-                            messageInfo && messageInfo.senderId === myId ? <span>you</span> : <span>{friendInfo.userName}</span>
+                            messageInfo && messageInfo.senderId === myId ? "" : <span className="fd-name">{friendInfo.userName}</span>
                         }
                     </h4>
                     <div className="msg-time">
