@@ -8,7 +8,7 @@ import MessageSend from "./MessageSend/MessageSend"
 import FriendInfo from "./FriendInfo/FriendInfo"
 
 const RigthSide = (props) => {
-    const {currentFriend, inputHandle, newMessage, sendMessage, message, scrollRef, emojiSend, imageSend, activeUser, typingMessage} = props
+    const {currentFriend, inputHandle, newMessage, sendMessage, message, scrollRef, emojiSend, imageSend, activeUser, typingMessage, gallery} = props
     return (
     <div className="right-side">
         <input type="checkbox" id="dot"/>
@@ -57,7 +57,7 @@ const RigthSide = (props) => {
                 </div>
             </div>
             <div className="col-4">
-                <FriendInfo currentFriend={currentFriend} activeUser={activeUser}/>
+                <FriendInfo currentFriend={currentFriend} activeUser={activeUser} gallery={gallery}/>
             </div>
         </div>
     </div>

@@ -3,7 +3,8 @@ import { LOGOUT_SUCCESS } from "../types/authType"
 
 const messengerState = {
     friends: [],
-    message: []
+    message: [],
+    gallery: []
 }
 
 export const messengerReducer = (state = messengerState, action) => {
@@ -19,7 +20,8 @@ export const messengerReducer = (state = messengerState, action) => {
     if(type === MESSAGE_GET_SUCCESS) { 
         return {
             ...state,
-            message : payload.message
+            message : payload.message,
+            gallery : payload.gallery 
         }
     }
 
@@ -27,13 +29,15 @@ export const messengerReducer = (state = messengerState, action) => {
         return {
             ...state,
             message : [...state.message, payload.message],
+            gallery : [...state.gallery, payload.message]
         }
     }
     
     if(type === SOCKET_MESSAGE) { 
         return {
             ...state,
-            message : [...state.message, payload.message]
+            message : [...state.message, payload.message],
+            gallery : [...state.gallery, payload.message]
         }
     }
     

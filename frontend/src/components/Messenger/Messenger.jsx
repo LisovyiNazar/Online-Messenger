@@ -24,7 +24,7 @@ const Messenger = () => {
     const [sendingAudio] = useSound(sendindSound)
     const socket = useRef()
     const scrollRef = useRef()
-    const { friends, message } = useSelector(state => state.messenger)
+    const { friends, message, gallery } = useSelector(state => state.messenger)
     const { myInfo } = useSelector(state => state.auth)
     
     const [ currentFriend, setCurrentFriend ] = useState("")
@@ -158,7 +158,8 @@ const Messenger = () => {
                 dispatch({
                     type: SOCKET_MESSAGE,
                     payload: {
-                        message: socketMessage
+                        message: socketMessage,
+                        gallery: socketMessage
                     }
                 })
             }
@@ -282,6 +283,7 @@ const Messenger = () => {
                             imageSend = {imageSend}
                             activeUser = {activeUser}
                             typingMessage = {typingMessage}
+                            gallery = {gallery}
                         /> : !myInfo ?
                         <div className="login">
                             <div className="text">

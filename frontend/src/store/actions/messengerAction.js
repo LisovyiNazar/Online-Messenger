@@ -37,7 +37,8 @@ export const getMessage = (id) => {
             dispatch({
                 type: MESSAGE_GET_SUCCESS,
                 payload: {
-                    message : response.data.message
+                    message : response.data.message,
+                    gallery : response.data.gallery 
                 }
             })
         } catch (error) {

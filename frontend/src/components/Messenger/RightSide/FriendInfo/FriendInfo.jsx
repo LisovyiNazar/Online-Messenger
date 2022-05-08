@@ -2,7 +2,7 @@ import React from "react"
 import { BsChevronDown } from "react-icons/bs"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
 
-const FriendInfo = ({ currentFriend, activeUser }) => {
+const FriendInfo = ({ currentFriend, activeUser, gallery }) => {
     return (
         <div className="friend-info">
             <input type="checkbox" id="gallary"/>
@@ -39,10 +39,12 @@ const FriendInfo = ({ currentFriend, activeUser }) => {
                 </div>
             </div>
             <div className="gallary">
-                <img src="./image/5.jpg" alt="" />
-                <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
-                <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
-                <img src="./image/photo_2021-09-23_14-55-05.jpg" alt="" />
+                {
+                    gallery && gallery.length > 0 ? gallery.map((image, i) => 
+                        gallery ? 
+                        <img src={`./image/${image.image}`} alt="" key={i} /> : ""
+                    ) : ""
+                }
             </div>
         </div>
     )

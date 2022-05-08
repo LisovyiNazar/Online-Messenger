@@ -62,12 +62,20 @@ module.exports.messageGet = async (req, res) => {
     const fdId = req.params.id
     try {
         const getAllMessage = await messageModel.findAll()
-        const allMessageJson = Serializer.serializeMany(getAllMessage, messageModel)
-        const myMessageJson = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${fdId}`)
-        const fdMessageJson = allMessageJson.filter((m => m.senderId === `${fdId}` &&  m.reseverId === `${myId}`)) 
-        const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id)})
         
-        res.status(200).json({success: true, message: getAllMessageJsonFilter})
+        const allMessageJson = Serializer.serializeMany(getAllMessage, messageModel)
+        
+        const myMessageJson = allMessageJson.filter(m => m.senderId === `${myId}` && m.reseverId === `${fdId}`)
+        const fdMessageJson = allMessageJson.filter(m => m.senderId === `${fdId}` && m.reseverId === `${myId}`) 
+        
+        const myPhoto = allMessageJson.filter(m => m.senderId === `${myId}` && m.image !== "")
+        const fdPhoto = allMessageJson.filter(m => m.senderId === `${fdId}` && m.image !== "") 
+
+
+        const getAllMessageJsonFilter = myMessageJson.concat(fdMessageJson).sort(function(a, b) {return (a.id - b.id)})
+        const gallery  = myPhoto.concat(fdPhoto).sort(function(a, b) {return (a.id - b.id)})
+        
+        res.status(200).json({success: true, message: getAllMessageJsonFilter, gallery: gallery})
     } catch (error) {
         res.status(500).json({error:{errorMessage: "Internal server error"}})
     }
