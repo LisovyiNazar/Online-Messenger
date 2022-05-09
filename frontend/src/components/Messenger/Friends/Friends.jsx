@@ -20,12 +20,9 @@ const Friends = (props) => {
                     </h4>
                     <div className="msg-time">
                         {
-                            messageInfo ? messageInfo.image !== "" ? <span>Send an image</span> : messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> : ""
+                            messageInfo ? messageInfo.image.length > 0 ? <span>Send an image</span> : messageInfo.message ? messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> : "" : ""
                         }
-                        {/* {
-                            messageInfo ? messageInfo.image !== "" ? <span>Send an image</span> : "" : ""
-                        } */}
-                        <span>{messageInfo ? moment(messageInfo.createdAt).startOf("mini").fromNow() : moment(friendInfo.createdAt).startOf("mini").fromNow()}</span>
+                        <span>{messageInfo ? moment(messageInfo.createdAt).format("hh:mm a") : moment(friendInfo.createdAt).format("hh:mm a")}</span>
                     </div>
                 </div>
             </div>

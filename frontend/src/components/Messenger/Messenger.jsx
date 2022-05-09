@@ -65,13 +65,14 @@ const Messenger = () => {
             image: "",
             time: new Date()
         })
+        
         socket.current.emit("typingMessage", {
             senderId : myInfo.id,
             reseverId : currentFriend.id,
             message : ""
         })
-        setNewMessage("")
         dispatch(getFriends())
+        setNewMessage("")
     }
 
     const emojiSend = (emoji) => {
@@ -85,6 +86,8 @@ const Messenger = () => {
     }
     
     const imageSend = (e) => {
+        sendingAudio()
+        e.preventDefault()
         if(e.target.files.length !== 0) {
             const imageName = e.target.files[0].name 
             const newImageName = Date.now() + imageName
@@ -105,9 +108,8 @@ const Messenger = () => {
                 image: newImageName,
                 time: new Date()
             })
+            dispatch(getFriends())
         }
-        sendingAudio()
-        dispatch(getFriends())
     }
 
     const logOut = () => {
@@ -239,9 +241,9 @@ const Messenger = () => {
                                         <BsThreeDots/>
                                     </div>
                                     <div className={hideMenu ? "theme-logout show" : "theme-logout"}>
-                                        <h3>Dark Mode</h3>
+                                        {/* <h3>Dark Mode</h3>
                                         <div className="on"><label htmlFor="dark"><input type="radio" name="theme" value="dark" /><span>ON</span></label></div>
-                                        <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div>
+                                        <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div> */}
                                         {
                                             myInfo ? 
                                             <div className="logout" onClick={logOut}>

@@ -1,8 +1,8 @@
 .card {
     width: 357px;
     padding: 15px 20px;
-    background-color: #141b2bd4;
-    box-shadow: 0px 8px 25px #f5f0f0;
+    background-color: $lines;
+    box-shadow: 0px 8px 25px $gray;
 }
 
 .form-group {
@@ -15,27 +15,27 @@
     padding: 12px;
     border: none;
     outline: none;
-    background-color: #0e0e1585;
-    color: #fff;
+    background-color: $input;
+    color: white;
     &::placeholder {
-        color: #B2B2B2;
+        color: $gray;
         font-weight: 400;
     }
 }
 
 label {
     margin-bottom: 5px;
-    color: #fff;
+    color: white;
     font-weight: 500;
 }
 
 .btn {
     outline: none;
-    color: #fff;
+    color: white;
     text-transform: uppercase;
     padding: 12px;
     text-align: center;
-    background-color: #101a23eb;
+    background-color: $background;
     border: none;
     cursor:pointer;
 }

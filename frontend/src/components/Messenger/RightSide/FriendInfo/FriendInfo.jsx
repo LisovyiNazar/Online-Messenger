@@ -25,22 +25,16 @@ const FriendInfo = ({ currentFriend, activeUser, gallery }) => {
                 </div>
             </div>
             <div className="others">
-                <div className="custom-chat">
-                    <h3>Customise Chat</h3>
-                    <BsChevronDown/>
-                </div>
-                <div className="privacy">
-                    <h3>Privacy and Support</h3>
-                    <BsChevronDown/>
-                </div>
-                <div className="media">
-                    <h3>Shared Media</h3>
-                    <label htmlFor="gallary"><BsChevronDown/></label>
-                </div>
+                <label htmlFor="gallary">
+                    <div className="media">
+                        <h3>Shared Media</h3>
+                        <BsChevronDown/>
+                    </div>
+                </label>
             </div>
             <div className="gallary">
                 {
-                    gallery && gallery.length > 0 ? gallery.map((image, i) => 
+                    gallery && gallery.length > 0 ? gallery.reverse().map((image, i) => 
                         gallery ? 
                         <img src={`./image/${image.image}`} alt="" key={i} /> : ""
                     ) : ""

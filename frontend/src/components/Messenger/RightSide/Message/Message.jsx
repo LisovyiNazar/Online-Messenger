@@ -1,5 +1,6 @@
 import React from "react"
 import { useSelector } from "react-redux"
+import moment from "moment"
 
 const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
     const { myInfo } = useSelector(state => state.auth) 
@@ -14,11 +15,13 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                             <div className="my-text">
                                 <p className="message-text">
                                     {m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message}
+                                    <div className="time">
+                                        {
+                                            moment(m.createdAt).format("hh:mm a")
+                                        }
+                                    </div>
                                 </p>
                             </div>
-                        </div>
-                        <div className="time">
-                            25.04.2022
                         </div>
                     </div> :
                     <div ref={scrollRef} key={i} className="fd-message">
@@ -28,10 +31,12 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                                 <div className="fd-text">
                                     <p className="message-text">
                                     { m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message }
+                                    <div className="time">
+                                        {
+                                            moment(m.createdAt).format("hh:mm a")
+                                        }
+                                    </div>
                                     </p>
-                                </div>
-                                <div className="time">
-                                    25.04.2022
                                 </div>
                             </div>
                         </div>

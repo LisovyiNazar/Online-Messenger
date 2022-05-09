@@ -3,11 +3,12 @@
     padding: 10px;
     overflow-y: auto;
     &::-webkit-scrollbar {
-        overflow: hidden;
+        display: none;
     }
     .my-message {
         width: 100%;
         float: right;
+        margin: 5px;
         .my-text {
             display: flex;
             align-items: flex-end;
@@ -25,17 +26,18 @@
                     overflow: hidden;
                     object-fit: cover;
                 }
+                .time {
+                    text-align: end;
+                    padding: 5px 0px;
+                    color: $gray;
+                }
             }
-        }
-        .time {
-            text-align: end;
-            padding: 5px 0px;
-            color: yellowgreen;
         }
     }
     .fd-message {
         width: 100%;
         float: left;
+        margin: 5px;
         .fd-text {
             display: flex;
             align-items: flex-end;
@@ -67,12 +69,12 @@
     }
     .message-text {
         padding: 8px;
-        color: #ffffff;
-        background-color: #28324ed9;
+        color: white;
+        background-color: $lines;
     }
     .time {
         padding: 5px 0px;
-        color: yellowgreen;
+        color: $gray;
     }
 }
 .typing-message {

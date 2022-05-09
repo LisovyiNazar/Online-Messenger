@@ -7,7 +7,7 @@
             width: 100%;
             .message-send-show {
                 height: 100vh;
-                border-right: 1px solid #213156bf;
+                border-right: 1px solid $lines;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -17,7 +17,7 @@
                     align-items: center;
                     justify-content: space-between;
                     padding: 12px 10px;
-                    border-bottom: 1px solid #213156bf;
+                    border-bottom: 1px solid $lines;
                     .image-name {
                         display: flex;
                         .image {
@@ -34,7 +34,7 @@
                                 width: 10px;
                                 height: 10px;
                                 border-radius: 50%;
-                                background-color: #6BCB77;
+                                background-color: $green;
                                 right: 0;
                                 top: 0;
                             }
@@ -45,7 +45,7 @@
                             align-items: center;
                             h3 {
                                 padding-left: 10px;
-                                color: #ffffff;
+                                color: white;
                             }
                         }
                     }
@@ -54,10 +54,10 @@
                         .icon {
                             height: 35px;
                             width: 35px;
-                            background: #0a0a1375;
+                            background: $background;
                             margin-left: 8px;
                             border-radius: 50%;
-                            color: #ffffff;
+                            color: white;
                             cursor: pointer;
                             display: flex;
                             justify-content: center;

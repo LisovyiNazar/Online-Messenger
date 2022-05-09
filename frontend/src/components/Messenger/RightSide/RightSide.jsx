@@ -35,12 +35,6 @@ const RigthSide = (props) => {
                             </div>
                         </div>
                         <div className="icons">
-                            {/* <div className="icon">
-                                <IoIosCall/>
-                            </div>
-                            <div className="icon">
-                                <BsCameraVideoFill/>
-                            </div> */}
                             <div className="icon">
                                 <label htmlFor="dot"><HiDotsCircleHorizontal/></label>
                             </div>
