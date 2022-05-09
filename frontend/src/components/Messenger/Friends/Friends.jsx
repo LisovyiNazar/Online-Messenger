@@ -4,12 +4,16 @@ import moment from "moment"
 const Friends = (props) => {
     const { friendInfo, messageInfo } = props.friend
     const myId = props.myId
+    const active = props.active
     return (
         <div className="friend">
             <div className="friend-image">
                 <div className="image">
                     <img src={`./image/${friendInfo.image}`}  alt=""/>
                 </div>
+                {
+                    active && active.length > 0 && active.some(u => u.userId === friendInfo.id) ? <div className="active-icon"></div> : ""
+                }
             </div>
             <div className="friend-name-seen">
                 <div className="friend-name">

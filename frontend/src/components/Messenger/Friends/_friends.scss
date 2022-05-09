@@ -19,16 +19,26 @@
             width: 100%;
             padding: 5px 10px;
             .friend-image {
+                position: relative;
                 .image {
                     width: 45px;
-                height: 45px;
-                overflow: hidden;
-                border-radius: 50%;
-                margin-right: 8px;
+                    height: 45px;
+                    overflow: hidden;
+                    border-radius: 50%;
+                    margin-right: 8px;
                     img {
                         width: 100%;
                         height: 100%;
                     }
+                }
+                .active-icon {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: $green;
                 }
             }
             .friend-name-seen {
