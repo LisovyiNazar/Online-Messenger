@@ -13,6 +13,7 @@
             display: flex;
             align-items: flex-end;
             justify-content: flex-end;
+            flex-direction: column;
             width: 400px;
             .message-text {
                 text-align: end;
@@ -40,8 +41,9 @@
         margin: 5px;
         .fd-text {
             display: flex;
-            align-items: flex-end;
+            align-items: flex-start;
             justify-content: flex-start;
+            flex-direction: column;
             width: 400px;
             .message-text {
                 text-align: start;
@@ -53,6 +55,11 @@
                     border-radius: 5px;
                     overflow: hidden;
                     object-fit: cover;
+                }
+                .time {
+                    text-align: end;
+                    padding: 5px 0px;
+                    color: $gray;
                 }
             }
         }

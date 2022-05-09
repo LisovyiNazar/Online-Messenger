@@ -15,7 +15,7 @@ const FriendInfo = ({ currentFriend, activeUser, gallery }) => {
             </div>
             <div className="image-name">
                 <div className="image">
-                    <img src={`./image/${currentFriend.image}`} alt="" />
+                    <img src={currentFriend.image} alt="" />
                 </div>
                     {
                         activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) ? <div className="active-user">Active</div> : ""
@@ -36,7 +36,7 @@ const FriendInfo = ({ currentFriend, activeUser, gallery }) => {
                 {
                     gallery && gallery.length > 0 ? gallery.reverse().map((image, i) => 
                         gallery ? 
-                        <img src={`./image/${image.image}`} alt="" key={i} /> : ""
+                        <img src={image.image} alt="" key={i} /> : ""
                     ) : ""
                 }
             </div>

@@ -3,6 +3,13 @@ const fs = require("fs")
 const User = require("../models/authModel")
 const messageModel = require("../models/messageModel")
 const Serializer = require("sequelize-to-json")
+const cloudinary = require("cloudinary").v2
+
+cloudinary.config({ 
+    cloud_name: "dzsszdyew", 
+    api_key: "574779741794487", 
+    api_secret: "858AAbYhQw6hIIC2rH3uPjEFUcg" 
+})
 
 module.exports.getFriends = async (req, res) => { 
     const myId = req.myId
@@ -86,23 +93,17 @@ module.exports.imageMessageSend = async (req, res) => {
 
     form.parse(req, async (err, fields, files) => { 
         const senderId = req.myId
-        const { senderName, reseverId, imageName } = fields
-
-        const newPath = __dirname + `../../../frontend/public/image/${imageName}`
-
-        files.image.name = imageName
-
+        const { senderName, reseverId } = fields
+        const { loadImage } = files
         try {
-            fs.copyFile(files.image.filepath, newPath, async (err) => {
-                if(err) {
-                    res.status(500).json({error:{errorMessage: "Image upload fail"}})
-                } else {
+            cloudinary.uploader.upload(loadImage.filepath, async (err, result) => {
+                if(!err) {
                     const insertMessage = await messageModel.create({
                         senderId: senderId,
                         senderName: senderName,
                         reseverId: reseverId,
                         message: "",
-                        image: files.image.name
+                        image: result.url
                     })
                     res.status(201).json({
                         success: true,
@@ -111,9 +112,11 @@ module.exports.imageMessageSend = async (req, res) => {
                             senderName: senderName,
                             reseverId: reseverId,
                             message: "",
-                            image: files.image.name
+                            image: result.url
                         }
                     })
+                } else {
+                    res.status(500).json({error:{errorMessage: "Image upload fail"}})
                 }
             })
         } catch (error) {

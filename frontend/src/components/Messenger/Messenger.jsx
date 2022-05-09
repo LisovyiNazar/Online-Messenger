@@ -89,27 +89,23 @@ const Messenger = () => {
         sendingAudio()
         e.preventDefault()
         if(e.target.files.length !== 0) {
-            const imageName = e.target.files[0].name 
-            const newImageName = Date.now() + imageName
-
             const formData = new FormData()
             formData.append("senderName", myInfo.userName)
             formData.append("reseverId", currentFriend.id)
-            formData.append("image", e.target.files[0])
-            formData.append("imageName", newImageName)
-
+            formData.append("loadImage", e.target.files[0])
+            
             dispatch(imageMessageSend(formData))
             
-            socket.current.emit("sendMessage", {
-                senderId: myInfo.id,
-                senderName : myInfo.userName,
-                reseverId : currentFriend.id,
-                message: "",
-                image: newImageName,
-                time: new Date()
-            })
-            dispatch(getFriends())
         }
+        socket.current.emit("sendMessage", {
+            senderId: myInfo.id,
+            senderName : myInfo.userName,
+            reseverId : currentFriend.id,
+            message: "",
+            image: message[message.length-1].image,
+            time: new Date()
+        })
+        dispatch(getFriends())
     }
 
     const logOut = () => {
@@ -227,7 +223,7 @@ const Messenger = () => {
                             <div className="top">
                                 <div className="image-name">
                                     <div className="image">                                        
-                                        <img src={`/image/${myInfo === "" ? "account-avatar.png" : myInfo.image }`} alt=""/>
+                                        <img src={myInfo === "" ? "/image/account-avatar.png" : myInfo.image} alt=""/>
                                     </div>
                                     <div className="name">
                                         <h3>{myInfo.userName}</h3> 

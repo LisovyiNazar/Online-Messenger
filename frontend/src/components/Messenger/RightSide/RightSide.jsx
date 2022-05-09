@@ -25,7 +25,7 @@ const RigthSide = (props) => {
                         </div>
                         <div className="image-name">
                             <div className="image">
-                                <img src={`./image/${currentFriend.image}`} alt="" />
+                                <img src={currentFriend.image} alt="" />
                                 {
                                     activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) ? <div className="active-icon"></div> : ""
                                 }

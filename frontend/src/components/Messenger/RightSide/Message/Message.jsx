@@ -13,30 +13,30 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                     <div ref={ scrollRef } key={i} className="my-message">
                         <div className="image-message">
                             <div className="my-text">
-                                <p className="message-text">
-                                    {m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message}
-                                    <div className="time">
-                                        {
-                                            moment(m.createdAt).format("hh:mm a")
-                                        }
-                                    </div>
-                                </p>
+                                <div className="message-text">
+                                    { m.message === "" ? <img src={m.image} alt=""/> : <p>{m.message}</p> }
+                                </div>
+                                <div className="time">
+                                    {
+                                        moment(m.createdAt).format("hh:mm a")
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div> :
                     <div ref={scrollRef} key={i} className="fd-message">
                         <div className="image-message-time">
-                            <img src={`./image/${currentFriend.image}`} alt="" />
+                            <img src={currentFriend.image} alt="" />
                             <div className="message-time">
                                 <div className="fd-text">
-                                    <p className="message-text">
-                                    { m.message === "" ? <img src={`./image/${m.image}`} alt=""/> : m.message }
+                                    <div className="message-text">
+                                        { m.message === "" ? <img src={m.image} alt=""/> : <p>{m.message}</p> }
+                                    </div>
                                     <div className="time">
                                         {
                                             moment(m.createdAt).format("hh:mm a")
                                         }
                                     </div>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
                 <div className="typing-message">
                     <div className="fd-message">
                         <div className="image-message-time">
-                            <img src={`./image/${currentFriend.image}`} alt="" />
+                            <img src={currentFriend.image} alt="" />
                             <div className="message-time">
                                 <div className="fd-text">
                                     <p className="message-text">Typing message...</p>

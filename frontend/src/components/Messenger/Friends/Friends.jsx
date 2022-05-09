@@ -9,7 +9,7 @@ const Friends = (props) => {
         <div className="friend">
             <div className="friend-image">
                 <div className="image">
-                    <img src={`./image/${friendInfo.image}`}  alt=""/>
+                    <img src={friendInfo.image} alt=""/>
                 </div>
                 {
                     active && active.length > 0 && active.some(u => u.userId === friendInfo.id) ? <div className="active-icon"></div> : ""
@@ -24,9 +24,9 @@ const Friends = (props) => {
                     </h4>
                     <div className="msg-time">
                         {
-                            messageInfo ? messageInfo.image.length > 0 ? <span>Send an image</span> : messageInfo.message ? messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> : "" : ""
+                            messageInfo ? messageInfo.message ? messageInfo.message.length > 10 ? <span>{`${messageInfo.message.slice(0, 10)}...`}</span> : <span>{messageInfo.message}</span> : <span>Send an image</span> : ""
                         }
-                        <span>{messageInfo ? moment(messageInfo.createdAt).format("hh:mm a") : moment(friendInfo.createdAt).format("hh:mm a")}</span>
+                        <span>{messageInfo ? moment(messageInfo.createdAt).format("hh:mm a") : ""}</span>
                     </div>
                 </div>
             </div>

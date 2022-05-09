@@ -3,14 +3,20 @@ const validator = require("validator")
 const registerModel = require("../models/authModel.js")
 const fs = require("fs")
 const bcrypt = require("bcrypt")
-const req = require("express/lib/request")
 const jwt = require("jsonwebtoken")
+const cloudinary = require("cloudinary").v2
+
+cloudinary.config({ 
+  cloud_name: "dzsszdyew", 
+  api_key: "574779741794487", 
+  api_secret: "858AAbYhQw6hIIC2rH3uPjEFUcg" 
+})
 
 module.exports.userRegister = async (req, res) => {
     const form = formidable()
     form.parse(req, async (err, fields, files) => {
-        const {userName, email, password, confirmPassword} = fields
-        const {image} = files
+        const { userName, email, password, confirmPassword } = fields
+        const { image } = files
 
         const error = []
         if(!userName) {
@@ -40,15 +46,8 @@ module.exports.userRegister = async (req, res) => {
         if(error.length>0) {
             res.status(400).json({errorMessage:error})
         } else {
-            const getImageName = image.originalFilename
-            const randNumber = Math.floor(Math.random()*99999) 
-
-            const newImageName = randNumber + getImageName
-            image.originalFilename = newImageName
-            const newPath = __dirname + `../../../frontend/public/image/${image.originalFilename}`
-
+            const getImagePath = image.filepath
             try {
-                console.log(email)
                 const checkUser = await registerModel.findOne({ 
                     where: {
                         email: email
@@ -57,13 +56,13 @@ module.exports.userRegister = async (req, res) => {
                     if(checkUser) {
                         res.status(404).json({error:{errorMessage:["Your email already exited"]}})
                     } else {
-                        fs.copyFile(image.filepath, newPath, async (error) => {
+                        cloudinary.uploader.upload(getImagePath, async (error, result) => {
                             if(!error) {
                                 const userCreate = await registerModel.create({
                                     userName,
                                     email,
                                     password: await bcrypt.hash(password, 10),
-                                    image: image.originalFilename
+                                    image: result.url
                                 })
     
                                 const token = jwt.sign({
@@ -92,7 +91,6 @@ module.exports.userRegister = async (req, res) => {
                 res.status(404).json({error:{errorMessage:["Internal server error"]}})
             }
         }
-
     })
 }
 

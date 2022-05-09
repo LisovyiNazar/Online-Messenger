@@ -43,11 +43,11 @@ const Register = () => {
         }
         const reader = new FileReader() 
 
-
         reader.onload = () => {
             setLoadImage(reader.result)
         }
         reader.readAsDataURL(e.target.files[0])
+        console.log(loadImage)
     }
 
     const dispatch = useDispatch()
