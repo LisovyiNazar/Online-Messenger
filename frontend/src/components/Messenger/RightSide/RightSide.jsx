@@ -1,7 +1,5 @@
 import React from "react"
 import { IoIosArrowDropleftCircle } from "react-icons/io"
-import { BsCameraVideoFill } from "react-icons/bs"
-import { IoIosCall } from "react-icons/io"
 import { HiDotsCircleHorizontal } from "react-icons/hi"
 import Message from "./Message/Message"
 import MessageSend from "./MessageSend/MessageSend"
@@ -27,7 +25,9 @@ const RigthSide = (props) => {
                             <div className="image">
                                 <img src={currentFriend.image} alt="" />
                                 {
-                                    activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) ? <div className="active-icon"></div> : ""
+                                    activeUser && activeUser.length > 0 && activeUser.some(u => u.userId === currentFriend.id) 
+                                    ? <div className="active-icon"></div> 
+                                    : ""
                                 }
                             </div>
                             <div className="name">
@@ -40,7 +40,11 @@ const RigthSide = (props) => {
                             </div>
                         </div>
                     </div>
-                    <Message currentFriend={currentFriend} message = {message} typingMessage = {typingMessage} scrollRef={scrollRef}/>
+                    <Message currentFriend={currentFriend} 
+                        message = {message} 
+                        typingMessage = {typingMessage} 
+                        scrollRef={scrollRef}
+                    />
                     <MessageSend 
                         inputHandle = {inputHandle}
                         newMessage = {newMessage}
@@ -51,7 +55,11 @@ const RigthSide = (props) => {
                 </div>
             </div>
             <div className="col-4">
-                <FriendInfo currentFriend={currentFriend} activeUser={activeUser} gallery={gallery}/>
+                <FriendInfo 
+                    currentFriend={currentFriend} 
+                    activeUser={activeUser} 
+                    gallery={gallery}
+                />
             </div>
         </div>
     </div>

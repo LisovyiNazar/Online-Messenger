@@ -4,7 +4,6 @@ import RigthSide from "./RightSide/RightSide"
 import { useDispatch, useSelector } from "react-redux"
 import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
 import { userLogOut } from "../../store/actions/authAction"
-import { Link } from "react-router-dom"
 import { io } from "socket.io-client"
 import { SOCKET_MESSAGE } from "../../store/types/messengerType"
 import toast, { Toaster } from "react-hot-toast"
@@ -15,17 +14,18 @@ import sendindSound from "../../audio/sendMessage.mp3"
 import { BsThreeDots } from "react-icons/bs"
 import { FaEdit } from "react-icons/fa"
 import { BiSearch } from "react-icons/bi"
-import ActiveFrind from "../Messenger/ActiveFriend/ActiveFriend"
 import Friends from "./Friends/Friends"
 import { IoIosLogOut } from "react-icons/io"
+import { useNavigate } from "react-router-dom"
 
 const Messenger = () => {
     const [notificationAudio] = useSound(notificationSound)
     const [sendingAudio] = useSound(sendindSound)
     const socket = useRef()
     const scrollRef = useRef()
+    const navigate = useNavigate()
     const { friends, message, gallery } = useSelector(state => state.messenger)
-    const { myInfo } = useSelector(state => state.auth)
+    const { myInfo, authenticate } = useSelector(state => state.auth)
     
     const [ currentFriend, setCurrentFriend ] = useState("")
     const [ newMessage, setNewMessage ] = useState("")
@@ -85,32 +85,45 @@ const Messenger = () => {
         dispatch(getFriends())
     }
     
-    const imageSend = (e) => {
+    const imageSend = async (e) => {
         sendingAudio()
         e.preventDefault()
         if(e.target.files.length !== 0) {
+            const imageData = new FormData()
+            imageData.append("file", e.target.files[0])
+            imageData.append("upload_preset", "messengerImage")
+
+            const response = await fetch("https://api.cloudinary.com/v1_1/dzsszdyew/image/upload", {
+                method: "POST",
+                body: imageData
+            })
+
+            const file = await response.json()
+            console.log(file.url)
+
             const formData = new FormData()
             formData.append("senderName", myInfo.userName)
             formData.append("reseverId", currentFriend.id)
-            formData.append("loadImage", e.target.files[0])
+            formData.append("imageUrl", file.url)
             
             dispatch(imageMessageSend(formData))
-            
-        }
-        socket.current.emit("sendMessage", {
-            senderId: myInfo.id,
-            senderName : myInfo.userName,
-            reseverId : currentFriend.id,
-            message: "",
-            image: message[message.length-1].image,
-            time: new Date()
-        })
-        dispatch(getFriends())
+
+            socket.current.emit("sendMessage", {
+                senderId: myInfo.id,
+                senderName : myInfo.userName,
+                reseverId : currentFriend.id,
+                message: "",
+                image: file.url,
+                time: new Date()
+            })
+            dispatch(getFriends())
+        }        
     }
 
     const logOut = () => {
         socket.current.emit("logout")
         dispatch(userLogOut())
+        navigate("/messenger/login")
     }
 
     const handleOutSide = (e) => {
@@ -136,6 +149,12 @@ const Messenger = () => {
             }
         }
     }
+
+    useEffect(() => {
+        if (!authenticate) {
+            navigate("/messenger/login")
+        }
+    }, [])
 
     useEffect(() => {
         document.body.addEventListener("click", handleOutSide)
@@ -188,19 +207,15 @@ const Messenger = () => {
     }, [socketMessage])
     
     useEffect(() => {
-        if(myInfo) {
-            dispatch(getFriends())
-        }
+        dispatch(getFriends())
     }, [])
     
     useEffect(() => {
-        if(myInfo) {
-            dispatch(getMessage(currentFriend.id))
-        }
+        dispatch(getMessage(currentFriend.id))
     }, [currentFriend?.id])
     
     useEffect(() => {
-        scrollRef.current ?.scrollIntoView({behavior:"smooth"})
+        scrollRef.current?.scrollIntoView({behavior:"smooth"})
     }, [message])
 
     return (
@@ -223,15 +238,12 @@ const Messenger = () => {
                             <div className="top">
                                 <div className="image-name">
                                     <div className="image">                                        
-                                        <img src={myInfo === "" ? "/image/account-avatar.png" : myInfo.image} alt=""/>
+                                        <img src={myInfo.image} alt=""/>
                                     </div>
                                     <div className="name">
                                         <h3>{myInfo.userName}</h3> 
                                     </div>
                                 </div>
-                                    {
-                                        myInfo ? "" : <span><Link to="/messenger/register">SingUp</Link> / <Link to="/messenger/login">SignIn</Link></span> 
-                                    }
                                 <div className="icons">
                                     <div className="icon" onClick={handleMenuClick}>
                                         <BsThreeDots/>
@@ -240,27 +252,19 @@ const Messenger = () => {
                                         {/* <h3>Dark Mode</h3>
                                         <div className="on"><label htmlFor="dark"><input type="radio" name="theme" value="dark" /><span>ON</span></label></div>
                                         <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div> */}
-                                        {
-                                            myInfo ? 
-                                            <div className="logout" onClick={logOut}>
-                                                <IoIosLogOut/>
-                                                <span>LogOut</span> 
-                                            </div> : ""
-                                        }
-                                        
+                                        <div className="logout" onClick={logOut}>
+                                            <IoIosLogOut/>
+                                            <span>LogOut</span> 
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            {
-                                myInfo ? 
                                 <div className="friend-search">
                                     <div className="search">
                                         <button><BiSearch/></button>
                                         <input onChange={search} type="text" placeholder="search" className="form-control" />
                                     </div>
                                 </div>
-                                : ""
-                            }
                             <div className="friends">
                                 <label htmlFor="friends">
                                     {               
@@ -290,25 +294,14 @@ const Messenger = () => {
                             activeUser = {activeUser}
                             typingMessage = {typingMessage}
                             gallery = {gallery}
-                        /> : !myInfo ?
+                        /> : 
                         <div className="login">
                             <div className="text">
                                 <img src="/image/chat.png" alt="" />
                             </div>
-                            <div className="text">
-                                For start using messenger
-                            </div>
-                            <div className="text">
-                                <span><Link to="/messenger/register">SingUp</Link> / <Link to="/messenger/login">SignIn</Link></span> 
-                            </div>
-                        </div> : 
-                            <div className="login">
-                            <div className="text">
-                                <img src="/image/chat.png" alt="" />
-                            </div>
-                            <div className="text">
+                            <span className="text">
                                 Select chat for messaging
-                            </div>
+                            </span>
                         </div>
                     }
                     </div>

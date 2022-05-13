@@ -9,7 +9,7 @@ const Register = () => {
 
     const alert = useAlert()
     const navigate = useNavigate()
-    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth)
+    const { successMessage, authenticate, error} = useSelector(state => state.auth)
 
     const [checked, setX] = useState(false)
 
