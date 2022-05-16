@@ -45,7 +45,7 @@ const Message = ({ message, currentFriend, scrollRef, typingMessage }) => {
             }
             </div>
             {
-                typingMessage && typingMessage.message !== "" && typingMessage.senderId == currentFriend.id? 
+                typingMessage && typingMessage.message !== "" && typingMessage.senderId === currentFriend.id? 
                 <div className="typing-message">
                     <div className="fd-message">
                         <div className="image-message-time">

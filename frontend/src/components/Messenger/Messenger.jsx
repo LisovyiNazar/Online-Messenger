@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getFriends, messageSend, getMessage, imageMessageSend } from "../../store/actions/messengerAction" 
 import { userLogOut } from "../../store/actions/authAction"
 import { io } from "socket.io-client"
-import { SOCKET_MESSAGE } from "../../store/types/messengerType"
+import { SOCKET_MESSAGE, IMAGE_SEND_SUCCESS } from "../../store/types/messengerType"
 import toast, { Toaster } from "react-hot-toast"
 import useSound from "use-sound"
 import notificationSound from "../../audio/getMessage.mp3"
@@ -86,7 +86,6 @@ const Messenger = () => {
     }
     
     const imageSend = async (e) => {
-        sendingAudio()
         e.preventDefault()
         if(e.target.files.length !== 0) {
             const imageData = new FormData()
@@ -97,15 +96,12 @@ const Messenger = () => {
                 method: "POST",
                 body: imageData
             })
-
             const file = await response.json()
-            console.log(file.url)
 
             const formData = new FormData()
             formData.append("senderName", myInfo.userName)
             formData.append("reseverId", currentFriend.id)
             formData.append("imageUrl", file.url)
-            
             dispatch(imageMessageSend(formData))
 
             socket.current.emit("sendMessage", {
@@ -117,6 +113,7 @@ const Messenger = () => {
                 time: new Date()
             })
             dispatch(getFriends())
+            sendingAudio()
         }        
     }
 
@@ -186,13 +183,22 @@ const Messenger = () => {
     useEffect(() => {
         if(socketMessage && currentFriend) {
             if(socketMessage.senderId === currentFriend.id && socketMessage.reseverId === myInfo.id) {
-                dispatch({
-                    type: SOCKET_MESSAGE,
-                    payload: {
-                        message: socketMessage,
-                        gallery: socketMessage
-                    }
-                })
+                console.log(socketMessage.image)
+                if (socketMessage.image !== "") {
+                    dispatch({
+                        type: IMAGE_SEND_SUCCESS,
+                        payload: {
+                            image: socketMessage
+                        }
+                    })
+                } else {
+                    dispatch({
+                        type: SOCKET_MESSAGE,
+                        payload: {
+                            message: socketMessage,
+                        }
+                    })
+                }
             }
         }
         setSocketMessage("")

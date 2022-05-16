@@ -101,7 +101,7 @@ module.exports.imageMessageSend = async (req, res) => {
             
             res.status(201).json({
                 success: true,
-                message: imageMessage
+                image: imageMessage
             })
         } catch (error) {
             res.status(500).json({error:{errorMessage: "Internal server error"}})
