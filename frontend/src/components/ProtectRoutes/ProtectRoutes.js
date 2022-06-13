@@ -9,10 +9,8 @@ const ProtectRoutes = () => {
     useEffect(() => {
         if (authenticate === false) {
             navigate("/messenger/login")
-        } else {
-            navigate("/")
-        }
-    }, [])
+        } 
+    })
 }
 
 export default ProtectRoutes

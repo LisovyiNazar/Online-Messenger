@@ -120,7 +120,6 @@ const Messenger = () => {
     const logOut = () => {
         socket.current.emit("logout")
         dispatch(userLogOut())
-        navigate("/messenger/login")
     }
 
     const handleOutSide = (e) => {
@@ -151,7 +150,7 @@ const Messenger = () => {
         if (!authenticate) {
             navigate("/messenger/login")
         }
-    }, [])
+    }, [authenticate])
 
     useEffect(() => {
         document.body.addEventListener("click", handleOutSide)
@@ -225,94 +224,91 @@ const Messenger = () => {
     }, [message])
 
     return (
-        <div>
-            <div className="messenger">
-                <Toaster
-                    position = {"top-right"}
-                    reverseOrder = { false }
-                    toastOptions = {{
-                        style: {
-                            fontSize: "18px"
-                        }
-                    }}
-
-                />
-                <input type="checkbox" id="friends"/>
-                <div className="row">
-                    <div className="col-3">
-                        <div className="left-side">
-                            <div className="top">
-                                <div className="image-name">
-                                    <div className="image">                                        
-                                        <img src={myInfo.image} alt=""/>
-                                    </div>
-                                    <div className="name">
-                                        <h3>{myInfo.userName}</h3> 
-                                    </div>
-                                </div>
-                                <div className="icons">
-                                    <div className="icon" onClick={handleMenuClick}>
-                                        <BsThreeDots/>
-                                    </div>
-                                    <div className={hideMenu ? "theme-logout show" : "theme-logout"}>
-                                        {/* <h3>Dark Mode</h3>
-                                        <div className="on"><label htmlFor="dark"><input type="radio" name="theme" value="dark" /><span>ON</span></label></div>
-                                        <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div> */}
-                                        <div className="logout" onClick={logOut}>
-                                            <IoIosLogOut/>
-                                            <span>LogOut</span> 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                                <div className="friend-search">
-                                    <div className="search">
-                                        <button><BiSearch/></button>
-                                        <input onChange={search} type="text" placeholder="search" className="form-control" />
-                                    </div>
-                                </div>
-                            <div className="friends">
-                                <label htmlFor="friends">
-                                    {               
-                                        friends && friends.length > 0 ? friends.map ((fd, i) => 
-                                            <div onClick={()=>setCurrentFriend(fd.friendInfo)}
-                                            className={currentFriend.id === fd.friendInfo.id?"hover-friend active":"hover-friend"} 
-                                            key={i}>
-                                                    <Friends friend = {fd} myId = {myInfo.id} active={activeUser}/>
-                                            </div>
-                                        ):""
-                                    }
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-9">
-                    {
-                        currentFriend ? <RigthSide 
-                            currentFriend = {currentFriend}
-                            inputHandle = {inputHandle}
-                            newMessage = {newMessage}
-                            sendMessage = {sendMessage}
-                            message = {message}
-                            scrollRef = {scrollRef}
-                            emojiSend = {emojiSend}
-                            imageSend = {imageSend}
-                            activeUser = {activeUser}
-                            typingMessage = {typingMessage}
-                            gallery = {gallery}
-                        /> : 
-                        <div className="login">
-                            <div className="text">
-                                <img src="/image/chat.png" alt="" />
-                            </div>
-                            <span className="text">
-                                Select chat for messaging
-                            </span>
-                        </div>
+        <div className="messenger">
+            <Toaster
+                position = {"top-right"}
+                reverseOrder = { false }
+                toastOptions = {{
+                    style: {
+                        fontSize: "18px"
                     }
+                }}
+            />
+            <input type="checkbox" id="friends"/>
+            <div className="row">
+                <div className="col-3">
+                <div className="left-side">
+                    <div className="top">
+                        <div className="image-name">
+                            <div className="image">                                        
+                                <img src={myInfo.image} alt=""/>
+                            </div>
+                            <div className="name">
+                                <h3>{myInfo.userName}</h3> 
+                            </div>
+                        </div>
+                        <div className="icons">
+                            <div className="icon" onClick={handleMenuClick}>
+                                <BsThreeDots/>
+                            </div>
+                            <div className={hideMenu ? "theme-logout show" : "theme-logout"}>
+                                {/* <h3>Dark Mode</h3>
+                                <div className="on"><label htmlFor="dark"><input type="radio" name="theme" value="dark" /><span>ON</span></label></div>
+                                <div className="off"><label htmlFor="light"><input type="radio" name="theme" value="light" /><span>OFF</span></label></div> */}
+                                <div className="logout" onClick={logOut}>
+                                    <IoIosLogOut/>
+                                    <span>LogOut</span> 
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>          
-            </div>
+                        <div className="friend-search">
+                            <div className="search">
+                                <button><BiSearch/></button>
+                                <input onChange={search} type="text" placeholder="search" className="form-control" />
+                            </div>
+                        </div>
+                    <div className="friends">
+                        <label htmlFor="friends">
+                            {               
+                                friends && friends.length > 0 ? friends.map ((fd, i) => 
+                                    <div onClick={()=>setCurrentFriend(fd.friendInfo)}
+                                    className={currentFriend.id === fd.friendInfo.id?"hover-friend active":"hover-friend"} 
+                                    key={i}>
+                                            <Friends friend = {fd} myId = {myInfo.id} active={activeUser}/>
+                                    </div>
+                                ):""
+                            }
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div className="col-9">
+                {
+                    currentFriend ? <RigthSide 
+                    currentFriend = {currentFriend}
+                    inputHandle = {inputHandle}
+                    newMessage = {newMessage}
+                    sendMessage = {sendMessage}
+                    message = {message}
+                    scrollRef = {scrollRef}
+                    emojiSend = {emojiSend}
+                    imageSend = {imageSend}
+                    activeUser = {activeUser}
+                    typingMessage = {typingMessage}
+                    gallery = {gallery}
+                    /> : 
+                    <div className="login">
+                    <div className="text">
+                        <img src="/image/chat.png" alt="" />
+                    </div>
+                    <span className="text">
+                        Select chat for messaging
+                    </span>
+                    </div>
+                }
+                </div>
+            </div>          
         </div>
     )
 }

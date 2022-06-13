@@ -9,7 +9,7 @@ const Login = () => {
 
     const alert = useAlert()
     const navigate = useNavigate()
-    const {loading, successMessage, authenticate, myInfo, error} = useSelector(state => state.auth)
+    const { successMessage, authenticate, error} = useSelector(state => state.auth)
     const dispatch = useDispatch()
     
     const [state, setState] = useState({
@@ -23,22 +23,30 @@ const Login = () => {
             [e.target.name] : e.target.value
         })
     }
+    
+    const log = (authenticate) => {
+        if(authenticate) {
+            navigate("/")
+        } else {
+            console.log("sdfsdf")
+        }
+    }
 
     const login = (e) => {
         e.preventDefault()
         dispatch(userLogin(state))
     }
 
+    
     useEffect(() => {
-        if(authenticate) {
-            navigate("/")
-        }
-       
         if(successMessage) {
             alert.success(successMessage)
             dispatch({
                 type: SUCCESS_MESSAGE_CLEAR
             })
+        }
+        if(authenticate){
+            navigate("/")
         }
         if(error) {
             error.map(err => alert.error(err))
@@ -46,7 +54,7 @@ const Login = () => {
                 type: ERROR_MESSAGE_CLEAR
             })
         }
-    }, [successMessage, error])
+    }, [successMessage, authenticate, error])
 
 
     return (
